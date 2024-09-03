@@ -1,8 +1,11 @@
 package trabalhoPratico;
 
+import trabalhoPratico.view.TelaLogin;
+
 public class SistemaEstoque {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        TelaLogin login = new TelaLogin();
+        login.draw();
     }
 }
