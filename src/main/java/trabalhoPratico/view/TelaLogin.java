@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.controller.FazerLogin;
+import trabalhoPratico.model.Funcionario;
 
 /**
  *
@@ -19,6 +20,11 @@ public class TelaLogin {
     private JTextField tfCPF;
     private JPasswordField pfPassword;
     
+    private static Funcionario user;
+    
+    /**
+     * Faz a janela aparecer na tela
+     */
     public void draw()
     {
         tela = new JFrame("Estoque");
@@ -32,7 +38,7 @@ public class TelaLogin {
         tela.pack();
     }
     
-    public void  drawInput()
+    private void  drawInput()
     {
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(350, 400));
@@ -65,7 +71,5 @@ public class TelaLogin {
         btnEntrar.addActionListener(new FazerLogin(this));
         
         panel.add(btnEntrar, "center");
-        
-        
     }
 }

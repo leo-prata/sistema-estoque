@@ -7,5 +7,6 @@ public class SistemaEstoque {
     public static void main(String[] args) {
         TelaLogin login = new TelaLogin();
         login.draw();
+
     }
 }
