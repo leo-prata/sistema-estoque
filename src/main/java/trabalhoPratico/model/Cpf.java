@@ -5,6 +5,7 @@
 package trabalhoPratico.model;
 
 import trabalhoPratico.exception.CpfException;
+import trabalhoPratico.exception.EmptyStrException;
 
 /**
  *
@@ -17,22 +18,19 @@ public final class Cpf {
     {    
     }
     
-    public Cpf(String cpf)
+    public Cpf(String cpf) throws CpfException, NumberFormatException, EmptyStrException
     {
-        try{
-            setCpf(cpf);
-        } catch(CpfException e)
-        {
-            
-        }
+        setCpf(cpf);
     }
 
     public String getCpf() {
-        return cpf;
+        return this.cpf;
     }
 
-    public void setCpf(String cpf) throws CpfException, NumberFormatException
+    public void setCpf(String cpf) throws CpfException, NumberFormatException, EmptyStrException
     {
+        if(cpf.isBlank())
+            throw new EmptyStrException();
         if(!cpfValido(cpf))
             throw new CpfException();
         
@@ -96,4 +94,10 @@ public final class Cpf {
         
         return true;
     }
+
+    @Override
+    public String toString() {
+        return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "."
+                + cpf.substring(6, 9) + "-" + cpf.substring(9);
+    }   
 }

@@ -1,7 +1,5 @@
 package trabalhoPratico.model;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import trabalhoPratico.exception.CpfException;
 import trabalhoPratico.exception.EmptyStrException;
 
@@ -17,10 +15,10 @@ public final class Funcionario {
     
     public Funcionario()
     {
-    
     }
     
-    public Funcionario(String name, String cpf, String password, String role) throws EmptyStrException {
+    public Funcionario(String name, String cpf, String password, String role) 
+            throws EmptyStrException, NumberFormatException, CpfException {
         setName(name);
         setCpf(cpf);
         setPassword(password);
@@ -49,16 +47,8 @@ public final class Funcionario {
         this.name = name;
     }
 
-    public void setCpf(String cpf) throws EmptyStrException {
-        if(cpf.isBlank())
-            throw new EmptyStrException();
-        try {
-            this.cpf.setCpf(cpf);
-        } catch (CpfException ex) {
-            Logger.getLogger(Funcionario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NumberFormatException ex) {
-            Logger.getLogger(Funcionario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void setCpf(String cpf) throws EmptyStrException, CpfException, NumberFormatException {
+        this.cpf = new Cpf(cpf);
     }
 
     public void setPassword(String password) throws EmptyStrException {

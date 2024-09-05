@@ -43,7 +43,7 @@ public class TelaLogin {
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(350, 400));
         panel.setMaximumSize(new Dimension(350, 400));
-        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.setBorder(BorderFactory.createRaisedSoftBevelBorder());
         tela.getContentPane().add(panel);
         panel.setLayout(new MigLayout("center, center"));
         
@@ -71,5 +71,6 @@ public class TelaLogin {
         btnEntrar.addActionListener(new FazerLogin(this));
         
         panel.add(btnEntrar, "center");
+        
     }
 }
