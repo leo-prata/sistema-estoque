@@ -1,0 +1,8 @@
+[{
+        "name": "admin",
+        "cpf": {
+            "cpf": "12345678909"
+        },
+        "password": "admin",
+        "role": "Gerente"
+    }]
