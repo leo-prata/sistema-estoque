@@ -37,7 +37,7 @@ public final class Cpf {
         this.cpf = cpf;
     }
     
-    public boolean cpfValido(String str) throws NumberFormatException
+    public static boolean cpfValido(String str) throws NumberFormatException
     {
         if(str.length()!=11)
             return false;

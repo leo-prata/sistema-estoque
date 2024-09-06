@@ -1,10 +1,14 @@
 package trabalhoPratico.view;
 
+import trabalhoPratico.persistence.FuncionarioPersistence;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.controller.FazerLogin;
 import trabalhoPratico.model.Funcionario;
+import trabalhoPratico.model.Cpf;
 
 /**
  *
@@ -69,8 +73,42 @@ public class TelaLogin {
         
         JButton btnEntrar = new JButton("Entrar");
         btnEntrar.addActionListener(new FazerLogin(this));
-        
         panel.add(btnEntrar, "center");
+    }
+    
+    public void entrar()
+    {
+        FuncionarioPersistence funcPersis = new FuncionarioPersistence();
+        List<Funcionario> listaFunc = funcPersis.read();
         
+        String cpfLogin = tfCPF.getText();
+        if(!Cpf.cpfValido(cpfLogin))
+        {
+            JOptionPane.showMessageDialog(tela, "CPF inválido.",
+                    "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String passwordLogin = String.valueOf(pfPassword.getPassword());
+        
+        for(Funcionario func : listaFunc)
+        {
+            if(func.getCpf().equals(cpfLogin))
+            {
+                if(func.getPassword().equals(passwordLogin))
+                {
+                user = func;
+                System.out.println("Login efetuado. User: " + user.getName());
+                //implementar chamada para a próxima tela
+                return; 
+                }
+                
+                JOptionPane.showMessageDialog(tela, "Senha iválida",
+                        "Erro de autenticação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        
+        JOptionPane.showMessageDialog(tela, "Usuário não encontrado",
+                "Erro de autenticação", JOptionPane.ERROR_MESSAGE);
     }
 }

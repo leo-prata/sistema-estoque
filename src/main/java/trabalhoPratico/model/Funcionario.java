@@ -29,8 +29,8 @@ public final class Funcionario {
         return name;
     }
 
-    public Cpf getCpf() {
-        return cpf;
+    public String getCpf() {
+        return cpf.getCpf();
     }
 
     public String getPassword() {

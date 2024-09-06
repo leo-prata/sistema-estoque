@@ -1,1 +1,8 @@
-[{"name":"admin","cpf":{"cpf":"21267489014"},"password":"admin","role":"Gerente"}]
+[{
+        "name": "admin",
+        "cpf": {
+            "cpf": "12345678909"
+        },
+        "password": "admin",
+        "role": "Gerente"
+    }]
