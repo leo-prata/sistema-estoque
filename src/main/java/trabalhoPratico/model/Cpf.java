@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package trabalhoPratico.model;
 
 import trabalhoPratico.exception.CpfException;
@@ -29,6 +25,8 @@ public final class Cpf {
 
     public void setCpf(String cpf) throws CpfException, NumberFormatException, EmptyStrException
     {
+        cpf = cpf.substring(0, 3) + cpf.substring(4, 7) + cpf.substring(8, 11) + cpf.substring(12);
+
         if(cpf.isBlank())
             throw new EmptyStrException();
         if(!cpfValido(cpf))
