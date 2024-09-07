@@ -9,6 +9,6 @@ public class SistemaEstoque {
         TelaLogin login = new TelaLogin();
         login.draw();
         TelaProduto produto = new TelaProduto();
-        produto.produtoJanela();
+        produto.draw();
     }
 }
