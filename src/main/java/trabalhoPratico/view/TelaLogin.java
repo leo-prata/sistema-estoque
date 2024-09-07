@@ -2,11 +2,15 @@ package trabalhoPratico.view;
 
 import trabalhoPratico.persistence.FuncionarioPersistence;
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.*;
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.List;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.controller.FazerLogin;
+import trabalhoPratico.exception.CpfException;
+import trabalhoPratico.exception.EmptyStrException;
 import trabalhoPratico.model.Funcionario;
 import trabalhoPratico.model.Cpf;
 
@@ -21,7 +25,7 @@ public class TelaLogin {
     private final int V_GAP = 10;
     private final int H_GAP = 5;
     
-    private JTextField tfCPF;
+    private JFormattedTextField tfCPF;
     private JPasswordField pfPassword;
     
     private static Funcionario user;
@@ -36,8 +40,7 @@ public class TelaLogin {
         tela.getContentPane().setLayout(new MigLayout("center, center"));
         tela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         tela.setVisible(true);
-        
-        
+
         drawInput();
         tela.pack();
     }
@@ -57,8 +60,12 @@ public class TelaLogin {
         labelCPF.setFont(font);
         panel.add(labelCPF, "wrap");
         
-        tfCPF = new JTextField(20);
+        try {
+            MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
+            tfCPF = new JFormattedTextField(mascaraCpf);
+        } catch (ParseException e) {}
         tfCPF.setBorder(BorderFactory.createLineBorder(Color.black));
+        tfCPF.setColumns(20);
         tfCPF.setFont(font);
         panel.add(tfCPF, "wrap");
         
@@ -81,33 +88,39 @@ public class TelaLogin {
         FuncionarioPersistence funcPersis = new FuncionarioPersistence();
         List<Funcionario> listaFunc = funcPersis.read();
         
-        String cpfLogin = tfCPF.getText();
-        if(!Cpf.cpfValido(cpfLogin))
-        {
+        Cpf cpfLogin;
+        try {
+            cpfLogin = new Cpf(tfCPF.getText());
+        } catch (NumberFormatException | CpfException | EmptyStrException e) {
             JOptionPane.showMessageDialog(tela, "CPF inválido.",
                     "ERRO", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
         String passwordLogin = String.valueOf(pfPassword.getPassword());
         
         for(Funcionario func : listaFunc)
         {
-            if(func.getCpf().equals(cpfLogin))
+            if(func.getCpf().equals(cpfLogin.getCpf()))
             {
+                //se o cpf e a senha forem correspondentes, o login é efetuado e proxima tela é chamada
                 if(func.getPassword().equals(passwordLogin))
                 {
                 user = func;
-                System.out.println("Login efetuado. User: " + user.getName());
-                //implementar chamada para a próxima tela
+                tela.dispose();
+                TelaTabelaProdutos tabelaProdutos = new TelaTabelaProdutos();
+                tabelaProdutos.draw();
                 return; 
                 }
                 
+                //se o usuario existe, mas a senha é inválida, joga um pop up de erro
                 JOptionPane.showMessageDialog(tela, "Senha iválida",
                         "Erro de autenticação", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }
         
+        //se o usuario não existe na base de dados, joga um pop up de erro
         JOptionPane.showMessageDialog(tela, "Usuário não encontrado",
                 "Erro de autenticação", JOptionPane.ERROR_MESSAGE);
     }
