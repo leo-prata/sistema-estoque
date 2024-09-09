@@ -1,13 +1,8 @@
 package trabalhoPratico;
 
-import java.util.ArrayList;
-import java.util.List;
 import trabalhoPratico.exception.CpfException;
 import trabalhoPratico.exception.EmptyStrException;
-import trabalhoPratico.model.Cpf;
-import trabalhoPratico.model.Funcionario;
-import trabalhoPratico.persistence.FuncionarioPersistence;
-import trabalhoPratico.view.TelaLogin;
+import trabalhoPratico.view.*;
 
 public class SistemaEstoque {
 

@@ -3,11 +3,11 @@ package trabalhoPratico.view;
 import trabalhoPratico.persistence.FuncionarioPersistence;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
-
 import java.awt.*;
 import java.text.ParseException;
 import java.util.List;
 import net.miginfocom.swing.MigLayout;
+import trabalhoPratico.controller.EnterToLogin;
 import trabalhoPratico.controller.FazerLogin;
 import trabalhoPratico.exception.CpfException;
 import trabalhoPratico.exception.EmptyStrException;
@@ -18,12 +18,9 @@ import trabalhoPratico.model.Cpf;
  *
  * @author filip
  */
-public class TelaLogin {
+public class TelaLogin implements Tela{
+
     private JFrame tela;
-    private final int WIDTH = 1280;
-    private final int HEIGHT = 720;
-    private final int V_GAP = 10;
-    private final int H_GAP = 5;
     
     private JFormattedTextField tfCPF;
     private JPasswordField pfPassword;
@@ -33,6 +30,7 @@ public class TelaLogin {
     /**
      * Faz a janela aparecer na tela
      */
+    @Override
     public void draw()
     {
         tela = new JFrame("Estoque");
@@ -67,6 +65,7 @@ public class TelaLogin {
         tfCPF.setBorder(BorderFactory.createLineBorder(Color.black));
         tfCPF.setColumns(20);
         tfCPF.setFont(font);
+        tfCPF.addKeyListener(new EnterToLogin(this));
         panel.add(tfCPF, "wrap");
         
         JLabel labelPasword = new JLabel("Senha:");
@@ -76,6 +75,7 @@ public class TelaLogin {
         pfPassword = new JPasswordField(20);
         pfPassword.setBorder(BorderFactory.createLineBorder(Color.black));
         pfPassword.setFont(font);
+        pfPassword.addKeyListener(new EnterToLogin(this));
         panel.add(pfPassword, "wrap");
         
         JButton btnEntrar = new JButton("Entrar");
@@ -108,7 +108,7 @@ public class TelaLogin {
                 {
                 user = func;
                 tela.dispose();
-                TelaTabelaProdutos tabelaProdutos = new TelaTabelaProdutos();
+                TelaTabelaProdutos tabelaProdutos = new TelaTabelaProdutos(user);
                 tabelaProdutos.draw();
                 return; 
                 }
