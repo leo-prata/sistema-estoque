@@ -34,12 +34,12 @@ public class FuncionarioPersistence implements Persistence<Funcionario> {
         
         String json = Archive.read(PATH);
         
-        List<Funcionario> funcionarios = new ArrayList();
+        List<Funcionario> funcionarios = new ArrayList<>();
         if(!json.trim().equals("")) {
 
-            Type tipoLista = new TypeToken<List<Funcionario>>() {
-            }.getType();
-        funcionarios = gson.fromJson(json, tipoLista);
+            Type tipoLista = new TypeToken<List<Funcionario>>() {}.getType();
+        
+            funcionarios = gson.fromJson(json, tipoLista);
         
             if (funcionarios == null)
                 funcionarios = new ArrayList<>();
