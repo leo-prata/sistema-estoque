@@ -26,6 +26,7 @@ public class TelaLogin {
         tela.getContentPane().setLayout(new MigLayout("center, center"));
         tela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         tela.setVisible(true);
+//        tela.setLocationRelativeTo(null);
         
         
         drawInput();

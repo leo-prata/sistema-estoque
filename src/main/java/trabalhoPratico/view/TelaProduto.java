@@ -10,8 +10,8 @@ import java.awt.*;
 public class TelaProduto {
     private JFrame telaTabela;
     private JPanel panelTabela;
-    private final int WIDTH = 500;
-    private final int HEIGHT = 650;
+    private final int WIDTH = 560;
+    private final int HEIGHT = 710;
     
     // linha provisoria, sera removida quando tivermos os produtos
     private String nomeProduto; 
@@ -42,6 +42,13 @@ public class TelaProduto {
         Font fontButton = new Font("sans-serif", Font.BOLD, 15);
         
         
+        
+        JPanel back = new JPanel();
+        back.setBounds(0, 0, 540, 690);
+       
+        back.setLayout(null);
+        
+        
         JLabel lbProduto = new JLabel("Produto: "+ nomeProduto);
         lbProduto.setFont(fontTexto);
         lbProduto.setBounds(20, 20, 250, 20);
@@ -60,14 +67,16 @@ public class TelaProduto {
         JPanel panelInfo = new JPanel();
 //        panelInfo.setBackground(Color.red);
         panelInfo.setBorder(BorderFactory.createLineBorder(Color.black));
-        panelInfo.setBounds(0, 0, 500, 80);
+        panelInfo.setBounds(20, 20, 500, 80);
         panelInfo.setLayout(null);
 //        panelLabel.setPreferredSize(new Dimension(500, 20));
 //        panelLabel.setMaximumSize(new Dimension(500, 20));
         panelInfo.add(lbProduto);
         panelInfo.add(lbPreco);
         panelInfo.add(lbTipo);
-        telaTabela.getContentPane().add(panelInfo);
+        back.add(panelInfo);
+        
+        
         
         
         
@@ -77,16 +86,17 @@ public class TelaProduto {
         lbFuturaTabela.setBounds(80, 40, 300, 100);
         
         panelTabela = new JPanel();
-//        panelTabela.setBackground(Color.BLUE);
-        panelTabela.setBorder(BorderFactory.createLineBorder(Color.black));
-        panelTabela.setBounds(0, 80, 500, 300);
+        
+        panelTabela.setBounds(20, 100, 500, 300);
         panelTabela.setLayout(null);
         panelTabela.add(lbFuturaTabela);
-        telaTabela.getContentPane().add (panelTabela);
+        back.add(panelTabela);
         
 //        panel.setSize(500, 500);
 //        panel.setPreferredSize(new Dimension(500, 400));
 //        panel.setMaximumSize(new Dimension(500, 400));
+
+
 
 
         JButton butAdiciona = new JButton("Adicionar");
@@ -103,13 +113,15 @@ public class TelaProduto {
 
         JPanel panelBotoes = new JPanel();
         panelBotoes.setBorder(BorderFactory.createLineBorder(Color.black));
-        panelBotoes.setBounds(0, 380, 500, 200);
+        panelBotoes.setBounds(20, 400, 500, 200);
 //        panelBotoes.setBackground(Color.green);
         panelBotoes.setLayout(null);
         panelBotoes.add(butAdiciona);
         panelBotoes.add(butEditar);
         panelBotoes.add(butRemove);
-        telaTabela.getContentPane().add(panelBotoes);
+        back.add(panelBotoes);
+        
+        telaTabela.getContentPane().add(back);
         
     }
     
