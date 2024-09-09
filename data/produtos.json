@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Sabão em pó Ype",
+        "category": "Limpeza",
+        "validade": "12/03/2026",
+        "price": "R$12,90",
+        "quantity": 10,
+        "lote": 230012
+    },
+    {
+        "name": "Achocolatado Nescau",
+        "category": "Achocolatados",
+        "validade": "15/06/2025",
+        "price": "R$7,50",
+        "quantity": 42,
+        "lote": 230016
+    },
+    {
+        "name": "Cerveja Spaten longneck",
+        "category": "Bebidas",
+        "validade": "13/01/2025",
+        "price": "R$5,40",
+        "quantity": 80,
+        "lote": 230097
+    }
+]

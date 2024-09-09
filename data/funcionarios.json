@@ -1,0 +1,16 @@
+[{
+        "name": "admin",
+        "cpf": {
+            "cpf": "12345678909"
+        },
+        "password": "admin",
+        "role": "Gerente"
+    },
+    {
+        "name": "Jorge da Silva",
+        "cpf": {
+            "cpf": "43808674040"
+        },
+        "password": "1234",
+        "role": "Caixa"
+    }]

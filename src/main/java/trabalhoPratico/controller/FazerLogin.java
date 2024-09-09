@@ -20,7 +20,7 @@ public class FazerLogin implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        System.out.println("Botão apertado");
+        this.tela.entrar();
     }
     
 }
