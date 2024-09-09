@@ -82,7 +82,7 @@ public class TelaTabelaProdutos implements Tela {
         listaProdutos = prodPersis.read();
         
         //transforma a lista em um vetor bidimensional de Object
-        Object[][] rowData = new Object[listaProdutos.size()][6];
+        Object[][] rowData = new Object[listaProdutos.size()][4];
         int cont = 0;
         for(Produto produto : listaProdutos)
         {
@@ -90,7 +90,7 @@ public class TelaTabelaProdutos implements Tela {
         }
         
         //nome das colunas
-        Object[] columnNames = {"Quantidade", "Nome", "Categoria", "Preço", "Validade", "Lote"};
+        Object[] columnNames = {"Quantidade", "Nome", "Categoria", "Preço"};
         
         jtProdutos = new JTable(rowData, columnNames);
         

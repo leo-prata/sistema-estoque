@@ -9,5 +9,6 @@ public class SistemaEstoque {
     public static void main(String[] args) throws CpfException, NumberFormatException, EmptyStrException {
         TelaLogin login = new TelaLogin();
         login.draw();
+
     }
 }
