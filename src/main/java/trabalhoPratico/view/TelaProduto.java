@@ -2,6 +2,7 @@ package trabalhoPratico.view;
 
 import javax.swing.*;
 import java.awt.*;
+import net.miginfocom.swing.MigLayout;
 
 /**
  *
@@ -21,16 +22,17 @@ public class TelaProduto {
         
     public void draw()
     {
-        telaTabela = new JFrame("Itens em Estoque");
-//        telaTabela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        telaTabela.setLayout(null);
+        telaTabela = new JFrame("Produto");
+        telaTabela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        telaTabela.setLayout(new MigLayout("top, center"));
         telaTabela.setSize(WIDTH, HEIGHT);
+        telaTabela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         telaTabela.setVisible(true);
         telaTabela.setLocationRelativeTo(null);
 //        telaTabela.setResizable(false);
         
         drawInput();
-        
+        telaTabela.pack();
     }
     public void drawInput()
     {
@@ -44,37 +46,36 @@ public class TelaProduto {
         
         
         JPanel back = new JPanel();
-        back.setBounds(0, 0, 540, 690);
-       
-        back.setLayout(null);
+//        back.setSize(WIDTH, HEIGHT);
+        back.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        back.setLayout(new MigLayout("top, center"));
         
         
         JLabel lbProduto = new JLabel("Produto: "+ nomeProduto);
         lbProduto.setFont(fontTexto);
-        lbProduto.setBounds(20, 20, 250, 20);
+        lbProduto.setPreferredSize(new Dimension(250, 20));
         
         
         JLabel lbPreco = new JLabel("Preco: " + precoProduto);
-        lbPreco.setBounds(20, 45, 150, 20);
+//        lbPreco.setBounds(20, 45, 150, 20);
         lbPreco.setFont(fontTexto);
+        lbPreco.setPreferredSize(new Dimension(150, 20));
         
         
         JLabel lbTipo = new JLabel("Tipo: " + tipoProduto);
-        lbTipo.setBounds(200, 45, 200, 20);
+//        lbTipo.setBounds(200, 45, 200, 20);
         lbTipo.setFont(fontTexto);
+        lbTipo.setPreferredSize(new Dimension(200, 20));
         
         
         JPanel panelInfo = new JPanel();
-//        panelInfo.setBackground(Color.red);
         panelInfo.setBorder(BorderFactory.createLineBorder(Color.black));
-        panelInfo.setBounds(20, 20, 500, 80);
-        panelInfo.setLayout(null);
-//        panelLabel.setPreferredSize(new Dimension(500, 20));
-//        panelLabel.setMaximumSize(new Dimension(500, 20));
-        panelInfo.add(lbProduto);
+        panelInfo.setPreferredSize(new Dimension(500,80));
+        panelInfo.setLayout(new MigLayout("top, left, fill"));
+        panelInfo.add(lbProduto, "wrap");
         panelInfo.add(lbPreco);
         panelInfo.add(lbTipo);
-        back.add(panelInfo);
+        back.add(panelInfo, "wrap");
         
         
         
@@ -82,15 +83,27 @@ public class TelaProduto {
         
         
         //Tabela de Produtos
-        JLabel lbFuturaTabela = new JLabel("Espaco para a tabela");
-        lbFuturaTabela.setBounds(80, 40, 300, 100);
+        Object[][] dados = {
+            {"5", "984542", "09/09/2024"},
+            {"3", "345276", "02/10/2024"},
+            {"12", "945257", "17/10/2024"}  
+        };
+        Object[] columnNames = {"Quantidade", "Lote", "Validade"};
+//        
+        JTable table = new JTable(dados, columnNames);
+//        
+        JScrollPane barraRolagem = new JScrollPane(table);
         
-        panelTabela = new JPanel();
         
-        panelTabela.setBounds(20, 100, 500, 300);
-        panelTabela.setLayout(null);
-        panelTabela.add(lbFuturaTabela);
-        back.add(panelTabela);
+        barraRolagem.setPreferredSize(new Dimension(500,200));
+        
+//        panelTabela = new JPanel();
+//        
+//        panelTabela.setPreferredSize(new Dimension(500, 300));
+//        panelTabela.setLayout(new MigLayout());
+//        panelTabela.add(table);
+//        panelTabela.add(barraRolagem);
+        back.add(barraRolagem, "wrap"); 
         
 //        panel.setSize(500, 500);
 //        panel.setPreferredSize(new Dimension(500, 400));
@@ -100,29 +113,32 @@ public class TelaProduto {
 
 
         JButton butAdiciona = new JButton("Adicionar");
-        butAdiciona.setBounds(110, 40, 120, 30);
+        butAdiciona.setPreferredSize(new Dimension(120,30));
         butAdiciona.setFont(fontButton);
         
         JButton butEditar = new JButton("Editar");
-        butEditar.setBounds(270, 40, 120, 30);
+        butEditar.setPreferredSize(new Dimension(120, 30));
         butEditar.setFont(fontButton);
         
         JButton butRemove = new JButton("Remover Produto");
-        butRemove.setBounds(110, 90, 280, 30);
+        butRemove.setPreferredSize(new Dimension(280, 30));
         butRemove.setFont(fontButton);
 
         JPanel panelBotoes = new JPanel();
         panelBotoes.setBorder(BorderFactory.createLineBorder(Color.black));
-        panelBotoes.setBounds(20, 400, 500, 200);
+        panelBotoes.setPreferredSize(new Dimension(500,200));
 //        panelBotoes.setBackground(Color.green);
-        panelBotoes.setLayout(null);
+        panelBotoes.setLayout(new MigLayout(
+        "",
+        "110[]40[]",
+        "40[]40[]"
+        ));
         panelBotoes.add(butAdiciona);
-        panelBotoes.add(butEditar);
-        panelBotoes.add(butRemove);
+        panelBotoes.add(butEditar, "wrap");
+        panelBotoes.add(butRemove, "span");
         back.add(panelBotoes);
         
         telaTabela.getContentPane().add(back);
         
     }
-    
 }

@@ -7,8 +7,8 @@ import trabalhoPratico.view.*;
 public class SistemaEstoque {
 
     public static void main(String[] args) throws CpfException, NumberFormatException, EmptyStrException {
-        TelaLogin login = new TelaLogin();
-        login.draw();
+//        TelaLogin login = new TelaLogin();
+//        login.draw();
 
         TelaProduto produto = new TelaProduto();
         produto.draw();
