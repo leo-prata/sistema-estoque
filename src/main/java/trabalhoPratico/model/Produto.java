@@ -103,6 +103,22 @@ public class Produto {
         array[3] = this.price;
         return array;
     }
+    
+    public String getName() {
+        return name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
 
     public Object[] getProdutoProperties()
     {
