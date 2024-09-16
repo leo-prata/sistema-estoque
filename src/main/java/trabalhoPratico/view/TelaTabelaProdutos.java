@@ -1,8 +1,10 @@
 package trabalhoPratico.view;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import net.miginfocom.swing.MigLayout;
+
 import trabalhoPratico.controller.AbrirInformacoesProduto;
 import trabalhoPratico.controller.AbrirTelaFuncionarios;
 import trabalhoPratico.controller.AdicionarCategoria;
@@ -23,6 +25,7 @@ public class TelaTabelaProdutos implements Tela {
 
     private List<Produto> listaProdutos;
     private JTable jtProdutos;
+    private DefaultTableModel tableModel;
 
     private Funcionario user;
 
@@ -78,21 +81,18 @@ public class TelaTabelaProdutos implements Tela {
     private void drawTable()
     {
         ProdutoPersistence prodPersis = new ProdutoPersistence();
-        
         listaProdutos = prodPersis.read();
         
-        //transforma a lista em um vetor bidimensional de Object
-        Object[][] rowData = new Object[listaProdutos.size()][4];
-        int cont = 0;
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Quantidade");
+        tableModel.addColumn("Nome");
+        tableModel.addColumn("Categoria");
+        tableModel.addColumn("Preço");
+
         for(Produto produto : listaProdutos)
-        {
-            rowData[cont++] = produto.toArray();
-        }
+            tableModel.addRow(produto.toArray());
         
-        //nome das colunas
-        Object[] columnNames = {"Quantidade", "Nome", "Categoria", "Preço"};
-        
-        jtProdutos = new JTable(rowData, columnNames);
+        jtProdutos = new JTable(tableModel);
         
         //cuida da parte visual da tabela
         Font font = new Font("sans-serif", Font.PLAIN, 20);
