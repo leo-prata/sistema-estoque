@@ -20,6 +20,7 @@ public class TelaFuncionario extends JFrame {
     private JList<Funcionario> listaFuncionarios;
     private JButton btnAdicionar;
     private JButton btnRemover;
+    private JButton btnEditar;
 
     public TelaFuncionario() {
         super("Gerenciamento de Funcionários");
@@ -35,9 +36,11 @@ public class TelaFuncionario extends JFrame {
         JPanel panelBotoes = new JPanel();
         btnAdicionar = new JButton("Adicionar");
         btnRemover = new JButton("Remover");
+        btnEditar = new JButton("Editar");
         panelBotoes.add(btnAdicionar);
         panelBotoes.add(btnRemover);
-
+        panelBotoes.add(btnEditar);
+         
         add(panelBotoes, BorderLayout.SOUTH);
     }
 
@@ -55,8 +58,13 @@ public class TelaFuncionario extends JFrame {
     public JButton getBtnRemover() {
         return btnRemover;
     }
+    
+    public JButton getBtnEditar() { 
+        return btnEditar;
+    }
 
     public JList<Funcionario> getListaFuncionarios() {
         return listaFuncionarios;
     }
+    
 }

@@ -67,5 +67,19 @@ public class FuncionarioPersistence implements Persistence<Funcionario> {
         funcionarios.removeIf(funcionario -> funcionario.getCpf().equals(cpf));
         save(funcionarios); 
     }
+    
+    public void update(Funcionario funcionarioAtualizado) {
+        List<Funcionario> funcionarios = findAll();
+
+        for (int i = 0; i < funcionarios.size(); i++) {
+            Funcionario funcionario = funcionarios.get(i);
+            if (funcionario.getCpf().equals(funcionarioAtualizado.getCpf())) {
+                funcionarios.set(i, funcionarioAtualizado);
+                break;
+            }
+        }
+
+        save(funcionarios);
+    }
 }
 

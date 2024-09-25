@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 /**
@@ -39,11 +35,18 @@ public class GerenciarFuncionarios implements WindowListener {
                 adicionaFuncionario();
             }
         });
-
+        
         tela.getBtnRemover().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 removeFuncionario();
+            }
+        });
+
+        tela.getBtnEditar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editaFuncionario();
             }
         });
     }
@@ -60,13 +63,32 @@ public class GerenciarFuncionarios implements WindowListener {
     }
 
     private void adicionaFuncionario() {
-         // Criação dos campos de entrada
+        abrirFormularioFuncionario(null);
+    }
+
+    private void editaFuncionario() {
+        Funcionario funcionarioSelecionado = tela.getListaFuncionarios().getSelectedValue();
+        if (funcionarioSelecionado != null) {
+            abrirFormularioFuncionario(funcionarioSelecionado);
+        } else {
+            JOptionPane.showMessageDialog(tela, "Selecione um funcionário para editar.");
+        }
+    }
+
+    private void abrirFormularioFuncionario(Funcionario funcionarioExistente) {
         JTextField nomeField = new JTextField();
         JTextField cpfField = new JTextField();
         JTextField dataNascimentoField = new JTextField();
         JTextField salarioField = new JTextField();
 
-        // Criação do painel de formulário
+        if (funcionarioExistente != null) {
+            nomeField.setText(funcionarioExistente.getNome());
+            cpfField.setText(funcionarioExistente.getCpf());
+            cpfField.setEditable(false); 
+            dataNascimentoField.setText(new SimpleDateFormat("dd/MM/yyyy").format(funcionarioExistente.getDataNascimento()));
+            salarioField.setText(String.valueOf(funcionarioExistente.getSalario()));
+        }
+
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
         formPanel.add(new JLabel("Nome:"));
@@ -78,18 +100,15 @@ public class GerenciarFuncionarios implements WindowListener {
         formPanel.add(new JLabel("Salário:"));
         formPanel.add(salarioField);
 
-        // Exibição do formulário em uma janela de diálogo
         int result = JOptionPane.showConfirmDialog(null, formPanel, 
-                "Adicionar Novo Funcionário", JOptionPane.OK_CANCEL_OPTION);
+                (funcionarioExistente == null ? "Adicionar Novo Funcionário" : "Editar Funcionário"), JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
-            // Captura das entradas
             String nome = nomeField.getText();
             String cpf = cpfField.getText();
             String dataNascimentoStr = dataNascimentoField.getText();
             String salarioStr = salarioField.getText();
 
-            // Validação dos campos de entrada
             if (nome.isEmpty() || cpf.isEmpty() || dataNascimentoStr.isEmpty() || salarioStr.isEmpty()) {
                 JOptionPane.showMessageDialog(tela, "Todos os campos devem ser preenchidos.");
                 return;
@@ -111,28 +130,30 @@ public class GerenciarFuncionarios implements WindowListener {
                 return;
             }
 
-            // Criação do novo funcionário
-            Funcionario novoFuncionario = new Funcionario(nome, cpf, dataNascimento, salario);
-            ((FuncionarioPersistence) funcionarioPersistence).add(novoFuncionario);
+            if (funcionarioExistente == null) {
+                Funcionario novoFuncionario = new Funcionario(nome, cpf, dataNascimento, salario);
+                ((FuncionarioPersistence) funcionarioPersistence).add(novoFuncionario);
+            } else {              
+                funcionarioExistente.setNome(nome);
+                funcionarioExistente.setDataNascimento(dataNascimento);
+                funcionarioExistente.setSalario(salario);
+                ((FuncionarioPersistence) funcionarioPersistence).update(funcionarioExistente);
+            }
 
-            // Atualização da lista de funcionários na interface
             tela.carregaFuncionarios(funcionarioPersistence.findAll());
         }
     }
 
     private void removeFuncionario() {
-        // Remove o funcionário selecionado
         Funcionario funcionarioSelecionado = tela.getListaFuncionarios().getSelectedValue();
-        String cpf = funcionarioSelecionado.getCpf();
         if (funcionarioSelecionado != null) {
+            String cpf = funcionarioSelecionado.getCpf();
             ((FuncionarioPersistence) funcionarioPersistence).remove(cpf);
             tela.carregaFuncionarios(funcionarioPersistence.findAll());
         } else {
             JOptionPane.showMessageDialog(tela, "Selecione um funcionário para remover.");
         }
     }
-
-    // Outros métodos do WindowListener...
 
     @Override
     public void windowClosed(WindowEvent e) {}

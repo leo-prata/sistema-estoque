@@ -38,6 +38,17 @@ public class Funcionario {
     public double getSalario() {
         return salario;
     }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
 
     @Override
     public String toString() {
