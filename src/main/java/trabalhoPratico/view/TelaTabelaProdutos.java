@@ -18,16 +18,16 @@ import java.util.List;
 public class TelaTabelaProdutos implements Tela {
     
     private JFrame tela;
-
     private JButton buttonAdicionarProduto;
     private JButton buttonAdicionarCategoria;
     private JButton buttonTelaFuncionarios;
-
     private List<Produto> listaProdutos;
     private JTable jtProdutos;
     private DefaultTableModel tableModel;
 
     private Funcionario user;
+
+    private ProdutoPersistence prodPersis = new ProdutoPersistence();
 
     public TelaTabelaProdutos(Funcionario user)
     {
@@ -80,7 +80,6 @@ public class TelaTabelaProdutos implements Tela {
     
     private void drawTable()
     {
-        ProdutoPersistence prodPersis = new ProdutoPersistence();
         listaProdutos = prodPersis.read();
         
         tableModel = new DefaultTableModel();
@@ -122,8 +121,10 @@ public class TelaTabelaProdutos implements Tela {
     
     public void informacoesProduto()
     {
-        //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMADA DA TELA DE INFORMAÇÔES DO PRODUTO
-        System.out.println(jtProdutos.getValueAt(jtProdutos.getSelectedRow(), 1).toString());
+        Produto produto = listaProdutos.get(jtProdutos.getSelectedRow());
+        TelaProduto telaProduto = new TelaProduto();
+
+        telaProduto.draw(produto, this);
     }
     
     public void adicionarCategoria()
@@ -137,7 +138,14 @@ public class TelaTabelaProdutos implements Tela {
         //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMDA DA TELA DE ADICIONAR NOVA CATEGORIA
         System.out.println("Abrindo tela de funcionarios");
     }
+
     public void removeProduto(Produto produto){
-        
+        listaProdutos.remove(produto);
+        salvaListaProdutos();
+    }
+
+    public void salvaListaProdutos()
+    {
+        prodPersis.save(listaProdutos);
     }
 }

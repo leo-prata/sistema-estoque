@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
+import trabalhoPratico.controller.FechamentoTelaProduto;
 import trabalhoPratico.model.Produto;
 import trabalhoPratico.persistence.ProdutoPersistence;
 import trabalhoPratico.view.Tela;
@@ -30,14 +31,18 @@ public class TelaProduto implements ActionListener{
     private final int HEIGHT = 680;
     private java.util.List<Produto> listaProdutos;
     private DefaultTableModel tableModel;
+    private JTable table;
     private Produto meuProduto;
     
     private JLabel total;
+
+    private TelaTabelaProdutos telaTabelaProdutos;
     
         
-    public void draw(Produto produto)
+    public void draw(Produto produto, TelaTabelaProdutos telaTabelaProdutos)
     {
         meuProduto = produto;
+        this.telaTabelaProdutos = telaTabelaProdutos;
         
         telaTabela = new JFrame("Produto");
         telaTabela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -46,6 +51,7 @@ public class TelaProduto implements ActionListener{
         telaTabela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         telaTabela.setVisible(true);
         telaTabela.setLocationRelativeTo(null);
+        telaTabela.addWindowListener(new FechamentoTelaProduto(telaTabelaProdutos));
         
         drawInfo();
         telaTabela.pack();
@@ -99,7 +105,7 @@ public class TelaProduto implements ActionListener{
         {
             tableModel.addRow(meuProduto.getProdutoProperties(i));
         }  
-        JTable table = new JTable(tableModel);  
+        table = new JTable(tableModel);  
         table.setDefaultEditor(Object.class, null);
         JScrollPane barraRolagem = new JScrollPane(table);
         table.setFont(fontTexto);
@@ -126,7 +132,7 @@ public class TelaProduto implements ActionListener{
         butAdiciona.setPreferredSize(new Dimension(120,30));
         butAdiciona.setFont(fontButton);
         
-        butEditar = new JButton("Editar");
+        butEditar = new JButton("Editar quantidade");
         butEditar.setPreferredSize(new Dimension(120, 30));
         butEditar.setFont(fontButton);
         
@@ -158,10 +164,12 @@ public class TelaProduto implements ActionListener{
         telaAdiciona.draw(meuProduto, this);
     }
     public void edita (ActionEvent ActionEvent) {
-        System.out.println("Produto sendo editado");  
+        int linha = table.getSelectedRow();
+        TelaInformacoesLote telaLote = new TelaInformacoesLote(meuProduto, linha, this);
+        telaLote.draw();
     }
     
-    public void atualizaTabela()
+    public void adicionaLinha()
     {
         Object[] novoLote = {
             meuProduto.getQuantity().get(meuProduto.getQuantidaddeLotes()-1),
@@ -173,6 +181,13 @@ public class TelaProduto implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        telaTabelaProdutos.removeProduto(meuProduto);
+        telaTabela.dispose();
         JOptionPane.showMessageDialog(null, "Produto removido com sucesso");
+    }
+
+    public void atualizaLinha(int linha)
+    {
+        table.setValueAt(meuProduto.getQuantity().get(linha), linha, 0);
     }
 }
