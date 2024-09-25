@@ -53,7 +53,7 @@ public class GerenciarFuncionarios implements WindowListener {
 
     @Override
     public void windowOpened(WindowEvent e) {
-        List<Funcionario> all = funcionarioPersistence.findAll();
+        List<Funcionario> all = funcionarioPersistence.read();
         tela.carregaFuncionarios(all);
     }
 
@@ -140,7 +140,7 @@ public class GerenciarFuncionarios implements WindowListener {
                 ((FuncionarioPersistence) funcionarioPersistence).update(funcionarioExistente);
             }
 
-            tela.carregaFuncionarios(funcionarioPersistence.findAll());
+            tela.carregaFuncionarios(funcionarioPersistence.read());
         }
     }
 
@@ -149,7 +149,7 @@ public class GerenciarFuncionarios implements WindowListener {
         if (funcionarioSelecionado != null) {
             String cpf = funcionarioSelecionado.getCpf();
             ((FuncionarioPersistence) funcionarioPersistence).remove(cpf);
-            tela.carregaFuncionarios(funcionarioPersistence.findAll());
+            tela.carregaFuncionarios(funcionarioPersistence.read());
         } else {
             JOptionPane.showMessageDialog(tela, "Selecione um funcionário para remover.");
         }

@@ -38,7 +38,7 @@ public class FuncionarioPersistence implements Persistence<Funcionario> {
     }
 
     @Override
-    public List<Funcionario> findAll() {
+    public List<Funcionario> read() {
         Gson gson = new Gson();
         String json = Arquivo.le(PATH);
 
@@ -56,20 +56,20 @@ public class FuncionarioPersistence implements Persistence<Funcionario> {
     }
     
      public void add(Funcionario funcionario) {
-        List<Funcionario> funcionarios = findAll();
+        List<Funcionario> funcionarios = read();
         funcionarios.add(funcionario);
         save(funcionarios); 
     }
 
     
     public void remove(String cpf) {
-        List<Funcionario> funcionarios = findAll();
+        List<Funcionario> funcionarios = read();
         funcionarios.removeIf(funcionario -> funcionario.getCpf().equals(cpf));
         save(funcionarios); 
     }
     
     public void update(Funcionario funcionarioAtualizado) {
-        List<Funcionario> funcionarios = findAll();
+        List<Funcionario> funcionarios = read();
 
         for (int i = 0; i < funcionarios.size(); i++) {
             Funcionario funcionario = funcionarios.get(i);
