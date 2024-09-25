@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.model.Produto;
 import trabalhoPratico.persistence.ProdutoPersistence;
@@ -16,74 +17,61 @@ import trabalhoPratico.view.Tela;
 public class TelaProduto implements ActionListener{
     private JFrame telaTabela;
     private JPanel panelTabela;
-    private final int WIDTH = 560;
+    private JPanel panelInfo;
+    private JPanel back;
+    
+    private JButton butAdiciona;
+    private JButton butEditar;
+    private JButton butRemove;
+    private JPanel panelBotoes;
+    
+    
+    private final int WIDTH = 540;
     private final int HEIGHT = 680;
     private java.util.List<Produto> listaProdutos;
+    private DefaultTableModel tableModel;
+    private Produto meuProduto;
+    
+    private JLabel total;
     
         
-    public void draw()
+    public void draw(Produto produto)
     {
+        meuProduto = produto;
+        
         telaTabela = new JFrame("Produto");
-        telaTabela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        telaTabela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaTabela.setLayout(new MigLayout("top, center"));
         telaTabela.setSize(WIDTH, HEIGHT);
         telaTabela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         telaTabela.setVisible(true);
         telaTabela.setLocationRelativeTo(null);
-//        telaTabela.setResizable(false);
         
-        drawInput();
+        drawInfo();
         telaTabela.pack();
     }
-    public void drawInput()
-    {
-        String nome = "Sabao em po Ype";
-        String preco= "R$ 300,00";
-        String tipo= "Produto de limpeza";
-        ProdutoPersistence prodPersis = new ProdutoPersistence();
-        
-        listaProdutos = prodPersis.read();
-        
-//        crie uma lista de objetos que tenham o mesmo nome 
-//        essa lista será passada para nossas coluunas da tela
-        
-        Object[][] rowData = new Object[listaProdutos.size()][3];
-        int cont = 0;
-        for(Produto produto : listaProdutos)
-        {
-            if(nome.equals(produto.getName()))
-            {
-                rowData[cont++] = produto.getProdutoProperties();
-            }        
-        }
-        
-        
+    private void drawInfo(){     
         Font fontTexto = new Font("sans-serif", Font.PLAIN, 15);
         
-        
-        
-        
-        JPanel back = new JPanel();
+        back = new JPanel();
         back.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        back.setLayout(new MigLayout("top, center"));
+        back.setLayout(new MigLayout(
+                "",
+                "[]",
+                "[][][][]"));
         
         
-        JLabel lbProduto = new JLabel("Produto: "+ nome);
+        JLabel lbProduto = new JLabel("Produto: "+ meuProduto.getName());
         lbProduto.setFont(fontTexto);
         lbProduto.setPreferredSize(new Dimension(250, 20));
-        
-        
-        JLabel lbPreco = new JLabel("Preco: " + preco);
+        JLabel lbPreco = new JLabel("Preco: " + meuProduto.getPrice());
         lbPreco.setFont(fontTexto);
         lbPreco.setPreferredSize(new Dimension(150, 20));
-        
-        
-        JLabel lbTipo = new JLabel("Tipo: " + tipo);
+        JLabel lbTipo = new JLabel("Tipo: " + meuProduto.getCategory());
         lbTipo.setFont(fontTexto);
         lbTipo.setPreferredSize(new Dimension(200, 20));
         
-        
-        JPanel panelInfo = new JPanel();
+        panelInfo = new JPanel();
         panelInfo.setBorder(BorderFactory.createLineBorder(Color.black));
         panelInfo.setPreferredSize(new Dimension(500,80));
         panelInfo.setLayout(new MigLayout("top, left, fill"));
@@ -91,42 +79,62 @@ public class TelaProduto implements ActionListener{
         panelInfo.add(lbPreco);
         panelInfo.add(lbTipo);
         back.add(panelInfo, "wrap");
+        drawTable();
+    }
+    
+    
+    private void drawTable()
+    {
+        ProdutoPersistence prodPersis = new ProdutoPersistence();
+        Font fontTexto = new Font("sans-serif", Font.PLAIN, 15);
         
+        listaProdutos = prodPersis.read();
+
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Quantidade");
+        tableModel.addColumn("Lote");
+        tableModel.addColumn("Validade");
         
-        
-        
-        Object[] columnNames = {"Quantidade", "Lote", "Validade"}; 
-        JTable table = new JTable(rowData, columnNames);  
+        for(int i=0; i<meuProduto.getQuantidaddeLotes(); i++ )
+        {
+            tableModel.addRow(meuProduto.getProdutoProperties(i));
+        }  
+        JTable table = new JTable(tableModel);  
+        table.setDefaultEditor(Object.class, null);
         JScrollPane barraRolagem = new JScrollPane(table);
+        table.setFont(fontTexto);
+        barraRolagem.setBorder(BorderFactory.createEmptyBorder());
         barraRolagem.setPreferredSize(new Dimension(500,400));
         
-        back.add(barraRolagem, "wrap"); 
-        
-        back.add(drawBut());
-        
-        
+        total = new JLabel("Total:"+meuProduto.getTotalQuantity());
+        total.setPreferredSize(new Dimension(100, 30));
+        total.setFont(fontTexto);
         
         
-        
+        back.add(barraRolagem, "span"); 
+        back.add(total, "wrap");
+        back.add(drawButtons());
         telaTabela.getContentPane().add(back);
-        
     }
-    public JPanel drawBut(){
+    
+    
+    private JPanel drawButtons()
+    {
         Font fontButton = new Font("sans-serif", Font.BOLD, 15);
         
-        JButton butAdiciona = new JButton("Adicionar");
+        butAdiciona = new JButton("Adicionar");
         butAdiciona.setPreferredSize(new Dimension(120,30));
         butAdiciona.setFont(fontButton);
         
-        JButton butEditar = new JButton("Editar");
+        butEditar = new JButton("Editar");
         butEditar.setPreferredSize(new Dimension(120, 30));
         butEditar.setFont(fontButton);
         
-        JButton butRemove = new JButton("Remover Produto");
+        butRemove = new JButton("Remover Produto");
         butRemove.setPreferredSize(new Dimension(280, 30));
         butRemove.setFont(fontButton);
 
-        JPanel panelBotoes = new JPanel();
+        panelBotoes = new JPanel();
         panelBotoes.setBorder(BorderFactory.createLineBorder(Color.black));
         panelBotoes.setPreferredSize(new Dimension(500,120));
         panelBotoes.setLayout(new MigLayout(
@@ -146,11 +154,21 @@ public class TelaProduto implements ActionListener{
     }
 
     public void adiciona (ActionEvent ActionEvent) {
-        System.out.println("Entra na tela de adicionar Produto"); 
-//        TelaAdicionaProduto();
+        TelaAdicionaLote telaAdiciona = new TelaAdicionaLote();
+        telaAdiciona.draw(meuProduto, this);
     }
     public void edita (ActionEvent ActionEvent) {
         System.out.println("Produto sendo editado");  
+    }
+    
+    public void atualizaTabela()
+    {
+        Object[] novoLote = {
+            meuProduto.getQuantity().get(meuProduto.getQuantidaddeLotes()-1),
+            meuProduto.getLote().get(meuProduto.getQuantidaddeLotes()-1),
+            meuProduto.getValidade().get(meuProduto.getQuantidaddeLotes()-1)};
+        tableModel.addRow(novoLote);
+        total.setText("Total:"+meuProduto.getTotalQuantity());
     }
 
     @Override

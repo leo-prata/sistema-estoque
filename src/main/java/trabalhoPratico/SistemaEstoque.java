@@ -1,7 +1,10 @@
 package trabalhoPratico;
 
+import java.util.List;
 import trabalhoPratico.exception.CpfException;
 import trabalhoPratico.exception.EmptyStrException;
+import trabalhoPratico.model.Produto;
+import trabalhoPratico.persistence.ProdutoPersistence;
 import trabalhoPratico.view.*;
 
 public class SistemaEstoque {
@@ -11,6 +14,9 @@ public class SistemaEstoque {
 //        login.draw();
 
         TelaProduto produto = new TelaProduto();
-        produto.draw();
+        ProdutoPersistence prodPersis = new ProdutoPersistence();
+        List<Produto> lista = prodPersis.read();
+        produto.draw(lista.get(1));
+        
     }
 }

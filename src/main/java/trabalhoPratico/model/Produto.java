@@ -19,11 +19,14 @@ public class Produto {
     public List<String> validade;
     private List<Integer> quantity;
     private List<String> lote;
+    private int quantidadeLotes;
 
     public Produto(){
         this.validade = new ArrayList<>();
         this.quantity = new ArrayList<>();
         this.lote = new ArrayList<>();
+        this.quantidadeLotes = 0;
+        this.totalQuantity = 0;
     }
 
     public Produto(String name, String category, String price)
@@ -33,6 +36,7 @@ public class Produto {
         setCategory(category);
         setPrice(price);
         this.totalQuantity = 0;
+        this.quantidadeLotes = 0;
 
         this.validade = new ArrayList<>();
         this.quantity = new ArrayList<>();
@@ -92,6 +96,7 @@ public class Produto {
         if(Integer.parseInt(lote.strip()) < 0)
             throw new NegativeNumberException();
         this.lote.add(lote);
+        quantidadeLotes++;
     }
 
     public Object[] toArray()
@@ -120,12 +125,29 @@ public class Produto {
         return totalQuantity;
     }
 
-    public Object[] getProdutoProperties()
+    public Object[] getProdutoProperties(int i)
     {
         Object[] array = new Object[3];
-        array[0] = this.quantity;
-        array[1] = this.lote;
-        array[2] = this.validade;
+        array[0] = this.quantity.get(i);
+        array[1] = this.lote.get(i);
+        array[2] = this.validade.get(i);
         return array;
+    }
+    
+    public int getQuantidaddeLotes()
+    {
+        return this.quantidadeLotes;
+    }
+
+    public List<String> getValidade() {
+        return validade;
+    }
+
+    public List<Integer> getQuantity() {
+        return quantity;
+    }
+
+    public List<String> getLote() {
+        return lote;
     }
 }

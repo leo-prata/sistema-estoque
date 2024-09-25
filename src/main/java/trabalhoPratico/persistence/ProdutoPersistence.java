@@ -40,7 +40,6 @@ public class ProdutoPersistence implements Persistence<Produto> {
             if (produtos == null)
                 produtos = new ArrayList<>();
         }
-
         return produtos;
     }
 
