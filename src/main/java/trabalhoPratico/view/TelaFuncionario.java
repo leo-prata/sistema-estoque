@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package view;
+package trabalhoPratico.view;
 
 /**
  *
  * @author leopp
  */
 
-import model.Funcionario;
+import trabalhoPratico.model.Funcionario;
         
 import javax.swing.*;
 import java.awt.*;

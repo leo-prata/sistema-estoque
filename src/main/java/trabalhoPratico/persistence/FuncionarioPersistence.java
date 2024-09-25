@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package persistence;
+package trabalhoPratico.persistence;
 
 /**
  *
@@ -15,7 +15,7 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import model.Funcionario;
+import trabalhoPratico.model.Funcionario;
 
 import java.util.*;
 
@@ -34,13 +34,13 @@ public class FuncionarioPersistence implements Persistence<Funcionario> {
             diretorio.mkdirs();
         }
 
-        Arquivo.salva(PATH, json);
+        Archive.save(PATH, json);
     }
 
     @Override
     public List<Funcionario> read() {
         Gson gson = new Gson();
-        String json = Arquivo.le(PATH);
+        String json = Archive.read(PATH);
 
         List<Funcionario> funcionarios = new ArrayList<>();
         if (!json.trim().equals("")) {

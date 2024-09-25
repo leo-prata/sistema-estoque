@@ -1,13 +1,13 @@
-package controller;
+package trabalhoPratico.controller;
 
 /**
  *
  * @author leopp
  */
-import model.Funcionario;
-import persistence.FuncionarioPersistence;
-import persistence.Persistence;
-import view.TelaFuncionario;
+import trabalhoPratico.model.Funcionario;
+import trabalhoPratico.persistence.FuncionarioPersistence;
+import trabalhoPratico.persistence.Persistence;
+import trabalhoPratico.view.TelaFuncionario;
 
 import javax.swing.*;
 import java.awt.event.WindowListener;
@@ -80,6 +80,8 @@ public class GerenciarFuncionarios implements WindowListener {
         JTextField cpfField = new JTextField();
         JTextField dataNascimentoField = new JTextField();
         JTextField salarioField = new JTextField();
+        JTextField roleField = new JTextField(); 
+        JTextField passwordField = new JTextField(); 
 
         if (funcionarioExistente != null) {
             nomeField.setText(funcionarioExistente.getNome());
@@ -87,6 +89,8 @@ public class GerenciarFuncionarios implements WindowListener {
             cpfField.setEditable(false); 
             dataNascimentoField.setText(new SimpleDateFormat("dd/MM/yyyy").format(funcionarioExistente.getDataNascimento()));
             salarioField.setText(String.valueOf(funcionarioExistente.getSalario()));
+            roleField.setText(funcionarioExistente.getRole());
+            passwordField.setText(funcionarioExistente.getPassword());
         }
 
         JPanel formPanel = new JPanel();
@@ -99,6 +103,11 @@ public class GerenciarFuncionarios implements WindowListener {
         formPanel.add(dataNascimentoField);
         formPanel.add(new JLabel("Salário:"));
         formPanel.add(salarioField);
+        formPanel.add(new JLabel("Role:")); 
+        formPanel.add(roleField);
+        formPanel.add(new JLabel("Password:"));
+        formPanel.add(passwordField);
+
 
         int result = JOptionPane.showConfirmDialog(null, formPanel, 
                 (funcionarioExistente == null ? "Adicionar Novo Funcionário" : "Editar Funcionário"), JOptionPane.OK_CANCEL_OPTION);
@@ -108,8 +117,10 @@ public class GerenciarFuncionarios implements WindowListener {
             String cpf = cpfField.getText();
             String dataNascimentoStr = dataNascimentoField.getText();
             String salarioStr = salarioField.getText();
+            String role = roleField.getText();
+            String password = passwordField.getText();
 
-            if (nome.isEmpty() || cpf.isEmpty() || dataNascimentoStr.isEmpty() || salarioStr.isEmpty()) {
+            if (nome.isEmpty() || cpf.isEmpty() || dataNascimentoStr.isEmpty() || salarioStr.isEmpty() || role.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(tela, "Todos os campos devem ser preenchidos.");
                 return;
             }
@@ -130,14 +141,21 @@ public class GerenciarFuncionarios implements WindowListener {
                 return;
             }
 
-            if (funcionarioExistente == null) {
-                Funcionario novoFuncionario = new Funcionario(nome, cpf, dataNascimento, salario);
-                ((FuncionarioPersistence) funcionarioPersistence).add(novoFuncionario);
-            } else {              
-                funcionarioExistente.setNome(nome);
-                funcionarioExistente.setDataNascimento(dataNascimento);
-                funcionarioExistente.setSalario(salario);
-                ((FuncionarioPersistence) funcionarioPersistence).update(funcionarioExistente);
+            try {
+                if (funcionarioExistente == null) {
+                    Funcionario novoFuncionario = new Funcionario(nome, cpf, dataNascimento, salario, role, password);
+                    ((FuncionarioPersistence) funcionarioPersistence).add(novoFuncionario);
+                } else {
+                    funcionarioExistente.setNome(nome);
+                    funcionarioExistente.setDataNascimento(dataNascimento);
+                    funcionarioExistente.setSalario(salario);
+                    funcionarioExistente.setRole(role);
+                    funcionarioExistente.setPassword(password);
+                    ((FuncionarioPersistence) funcionarioPersistence).update(funcionarioExistente);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(tela, "Erro ao salvar o funcionário: " + e.getMessage());
+                return;
             }
 
             tela.carregaFuncionarios(funcionarioPersistence.read());
