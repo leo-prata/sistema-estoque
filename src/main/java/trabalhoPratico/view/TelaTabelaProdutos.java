@@ -137,4 +137,7 @@ public class TelaTabelaProdutos implements Tela {
         //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMDA DA TELA DE ADICIONAR NOVA CATEGORIA
         System.out.println("Abrindo tela de funcionarios");
     }
+    public void removeProduto(Produto produto){
+        
+    }
 }
