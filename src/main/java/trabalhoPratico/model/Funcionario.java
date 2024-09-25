@@ -1,65 +1,46 @@
-package trabalhoPratico.model;
-
-import trabalhoPratico.exception.CpfException;
-import trabalhoPratico.exception.EmptyStrException;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package model;
 
 /**
  *
- * @author filip
+ * @author leopp
  */
-public final class Funcionario {
-    private String name; 
-    private Cpf cpf;
-    private String password;
-    private String role;
-    
-    public Funcionario()
-    {
-    }
-    
-    public Funcionario(String name, String cpf, String password, String role) 
-            throws EmptyStrException, NumberFormatException, CpfException {
-        setName(name);
-        setCpf(cpf);
-        setPassword(password);
-        setRole(role);
+import java.util.Date;
+
+public class Funcionario {
+    private String nome;
+    private String cpf;
+    private Date dataNascimento;
+    private double salario;
+
+    public Funcionario(String nome, String cpf, Date dataNascimento, double salario) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+        this.salario = salario;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
     public String getCpf() {
-        return cpf.getCpf();
+        return cpf;
     }
 
-    public String getPassword() {
-        return password;
+    public Date getDataNascimento() {
+        return dataNascimento;
     }
 
-    public String getRole() {
-        return role;
+    public double getSalario() {
+        return salario;
     }
 
-    public void setName(String name) throws EmptyStrException {
-        if(name.isBlank())
-            throw new EmptyStrException();
-        this.name = name;
-    }
-
-    public void setCpf(String cpf) throws EmptyStrException, CpfException, NumberFormatException {
-        this.cpf = new Cpf(cpf);
-    }
-
-    public void setPassword(String password) throws EmptyStrException {
-        if(password.isBlank())
-            throw new EmptyStrException();
-        this.password = password;
-    }
-
-    public void setRole(String role) throws EmptyStrException {
-        if(role.isBlank())
-            throw new EmptyStrException();
-        this.role = role;
+    @Override
+    public String toString() {
+        return "Nome: " + nome + ", CPF: " + cpf + ", Data de Nascimento: " + dataNascimento + ", Salário: " + salario;
     }
 }
