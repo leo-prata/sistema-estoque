@@ -1,8 +1,10 @@
 package trabalhoPratico.view;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import net.miginfocom.swing.MigLayout;
+
 import trabalhoPratico.controller.AbrirInformacoesProduto;
 import trabalhoPratico.controller.AbrirTelaFuncionarios;
 import trabalhoPratico.controller.AdicionarCategoria;
@@ -16,15 +18,16 @@ import java.util.List;
 public class TelaTabelaProdutos implements Tela {
     
     private JFrame tela;
-
     private JButton buttonAdicionarProduto;
     private JButton buttonAdicionarCategoria;
     private JButton buttonTelaFuncionarios;
-
     private List<Produto> listaProdutos;
     private JTable jtProdutos;
+    private DefaultTableModel tableModel;
 
     private Funcionario user;
+
+    private ProdutoPersistence prodPersis = new ProdutoPersistence();
 
     public TelaTabelaProdutos(Funcionario user)
     {
@@ -77,22 +80,18 @@ public class TelaTabelaProdutos implements Tela {
     
     private void drawTable()
     {
-        ProdutoPersistence prodPersis = new ProdutoPersistence();
-        
         listaProdutos = prodPersis.read();
         
-        //transforma a lista em um vetor bidimensional de Object
-        Object[][] rowData = new Object[listaProdutos.size()][4];
-        int cont = 0;
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Quantidade");
+        tableModel.addColumn("Nome");
+        tableModel.addColumn("Categoria");
+        tableModel.addColumn("Preço");
+
         for(Produto produto : listaProdutos)
-        {
-            rowData[cont++] = produto.toArray();
-        }
+            tableModel.addRow(produto.toArray());
         
-        //nome das colunas
-        Object[] columnNames = {"Quantidade", "Nome", "Categoria", "Preço"};
-        
-        jtProdutos = new JTable(rowData, columnNames);
+        jtProdutos = new JTable(tableModel);
         
         //cuida da parte visual da tabela
         Font font = new Font("sans-serif", Font.PLAIN, 20);
@@ -122,8 +121,10 @@ public class TelaTabelaProdutos implements Tela {
     
     public void informacoesProduto()
     {
-        //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMADA DA TELA DE INFORMAÇÔES DO PRODUTO
-        System.out.println(jtProdutos.getValueAt(jtProdutos.getSelectedRow(), 1).toString());
+        Produto produto = listaProdutos.get(jtProdutos.getSelectedRow());
+        TelaProduto telaProduto = new TelaProduto();
+
+        telaProduto.draw(produto, this);
     }
     
     public void adicionarCategoria()
@@ -137,7 +138,14 @@ public class TelaTabelaProdutos implements Tela {
         //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMDA DA TELA DE ADICIONAR NOVA CATEGORIA
         System.out.println("Abrindo tela de funcionarios");
     }
+
     public void removeProduto(Produto produto){
-        
+        listaProdutos.remove(produto);
+        salvaListaProdutos();
+    }
+
+    public void salvaListaProdutos()
+    {
+        prodPersis.save(listaProdutos);
     }
 }

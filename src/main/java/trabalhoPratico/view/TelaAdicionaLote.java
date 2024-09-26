@@ -189,12 +189,11 @@ public class TelaAdicionaLote {
             infoProdut.setLote(JTextLote.getText());
             infoProdut.setValidade(validade.getText());
             
-            telaProduto.atualizaTabela();
+            telaProduto.adicionaLinha();
             telaAdiciona.dispose();
         }
         catch (Exception e){
         }
-        JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso");
     }
 
 }
