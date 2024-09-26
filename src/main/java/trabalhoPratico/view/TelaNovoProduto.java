@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.model.Produto;
@@ -33,14 +34,19 @@ public class TelaNovoProduto {
     private JLabel JTipo;
     private JLabel JPreco;
     private int quantidade;
+    private JTextField TextPreco;
     private JFormattedTextField JTextQuant;
     private JFormattedTextField JTextLote;
     private JFormattedTextField validade;
     
+    private TelaProduto telaProduto;
     
-    public void draw(Produto produto){
+    
+    public void draw(Produto produto, TelaProduto telaProduto){
         infoProdut = produto;
+        this.telaProduto = telaProduto;
         telaAdiciona = new JFrame("Novo Produto");
+        telaAdiciona.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaAdiciona.setSize(500,500);
         telaAdiciona.setLayout(new MigLayout("top, center"));
         telaAdiciona.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -65,24 +71,23 @@ public class TelaNovoProduto {
         
         JNome = new JLabel("Nome: ");
         JNome.setFont(fontTexto);
-        JNome.setPreferredSize(new Dimension(60,20));
-        JLabel TextNome = new JLabel(infoProdut.getName());
+        JTextField  TextNome = new JTextField();
+        TextNome.setPreferredSize(new Dimension(100, 20));
         TextNome.setFont(fontTexto);
-        TextNome.setPreferredSize(new Dimension(100,20));
         
         
         JTipo = new JLabel("Tipo:");
         JTipo.setFont(fontTexto);
         JTipo.setPreferredSize(new Dimension(60,20));
-        JLabel TextTipo = new JLabel(infoProdut.getCategory());
+        JTextField  TextTipo = new JTextField();
+        TextTipo.setPreferredSize(new Dimension(100, 20));
         TextTipo.setFont(fontTexto);
-        TextTipo.setPreferredSize(new Dimension(100,20));
         
         
         JPreco = new JLabel("Preco: ");
         JPreco.setFont(fontTexto);
         JPreco.setPreferredSize(new Dimension(60,20));
-        JLabel TextPreco = new JLabel(infoProdut.getPrice());
+        TextPreco = new JTextField();
         TextPreco.setFont(fontTexto);
         TextPreco.setPreferredSize(new Dimension(100,20));
         
@@ -181,18 +186,28 @@ public class TelaNovoProduto {
        	telaAdiciona.dispose();
     }
 
-    public void adicionarActionPerfomed(ActionEvent x) /*throws NegativeNumberException, EmptyStrException*/{
-        try{
-            quantidade = Integer.parseInt(JTextQuant.getText());
-            System.out.println(quantidade);
+    public void adicionarActionPerfomed(ActionEvent x){
+        if(!(TextPreco.getText().isEmpty()) ){
             
+            try{
+                int preco = Integer.parseInt(TextPreco.getText());
+            }
+            catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Preco invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+            }
+
+            infoProdut.setPrice(TextPreco.getText());
+            quantidade = Integer.parseInt(JTextQuant.getText());
             infoProdut.setQuantity(quantidade);
             infoProdut.setLote(JTextLote.getText());
             infoProdut.setValidade(validade.getText());
+            telaProduto.atualizaTabela();
+            JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso");
+            telaAdiciona.dispose();
         }
-        catch (Exception e){
-            JOptionPane.showMessageDialog(null, "ERRO");
-        }
-        JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso");
+        
+
+     
+        
     }
 }

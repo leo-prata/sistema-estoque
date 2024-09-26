@@ -61,15 +61,12 @@ public class Produto {
         
     }
 
-    public void setValidade(String validade) throws EmptyStrException {
-        if(validade.isBlank())
-            throw new EmptyStrException();
+    public void setValidade(String validade){
         this.validade.add(validade);
     }
 
-    public void setPrice(String price) throws EmptyStrException {
-        if(price.isBlank())
-            throw new EmptyStrException();
+    public void setPrice(String price){
+        
         this.price = price;
     }
     
@@ -85,16 +82,12 @@ public class Produto {
         this.category = category;
     }
 
-    public void setQuantity(int quantity) throws NegativeNumberException {
-        if(quantity < 0)
-            throw new NegativeNumberException();
+    public void setQuantity(int quantity){
         this.quantity.add(quantity);
         totalQuantity += quantity;
     }
 
-    public void setLote(String lote) throws NegativeNumberException {
-        if(Integer.parseInt(lote.strip()) < 0)
-            throw new NegativeNumberException();
+    public void setLote(String lote){
         this.lote.add(lote);
         quantidadeLotes++;
     }

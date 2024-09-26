@@ -28,7 +28,6 @@ public class TelaProduto implements ActionListener{
     
     private final int WIDTH = 540;
     private final int HEIGHT = 680;
-    private java.util.List<Produto> listaProdutos;
     private DefaultTableModel tableModel;
     private Produto meuProduto;
     
@@ -87,8 +86,6 @@ public class TelaProduto implements ActionListener{
     {
         ProdutoPersistence prodPersis = new ProdutoPersistence();
         Font fontTexto = new Font("sans-serif", Font.PLAIN, 15);
-        
-        listaProdutos = prodPersis.read();
 
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Quantidade");
@@ -154,7 +151,7 @@ public class TelaProduto implements ActionListener{
     }
 
     public void adiciona (ActionEvent ActionEvent) {
-        TelaAdicionaLote telaAdiciona = new TelaAdicionaLote();
+        TelaNovoProduto telaAdiciona = new TelaNovoProduto();
         telaAdiciona.draw(meuProduto, this);
     }
     public void edita (ActionEvent ActionEvent) {

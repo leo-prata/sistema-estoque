@@ -55,9 +55,6 @@ public class TelaAdicionaLote {
     }
     
     private void drawTela(){
-        
-        
-        
         Font fontTexto = new Font("sans-serif", Font.PLAIN, 15);
         
         panel = new JPanel();
@@ -86,12 +83,6 @@ public class TelaAdicionaLote {
         JPreco = new JLabel("Preco: ");
         JPreco.setFont(fontTexto);
         JPreco.setPreferredSize(new Dimension(60,20));
-//        try {
-//            MaskFormatter Quant = new MaskFormatter("###");
-//            JTextQuant = new JFormattedTextField(Quant);
-//        } catch (ParseException e) {
-//            JOptionPane.showMessageDialog(null, "Quantidade invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-//        }
         JLabel TextPreco = new JLabel(infoProdut.getPrice());
         TextPreco.setFont(fontTexto);
         TextPreco.setPreferredSize(new Dimension(100,20));
@@ -191,7 +182,7 @@ public class TelaAdicionaLote {
        	telaAdiciona.dispose();
     }
 
-    public void adicionarActionPerfomed(ActionEvent x) /*throws NegativeNumberException, EmptyStrException*/{
+    public void adicionarActionPerfomed(ActionEvent x){
         try{
             quantidade = Integer.parseInt(JTextQuant.getText());
             infoProdut.setQuantity(quantidade);
