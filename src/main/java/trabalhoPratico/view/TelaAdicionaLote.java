@@ -12,6 +12,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.exception.EmptyStrException;
@@ -33,7 +34,7 @@ public class TelaAdicionaLote {
     private JLabel JTipo;
     private JLabel JPreco;
     private int quantidade;
-    private JFormattedTextField JTextQuant;
+    private JTextField JTextQuant;
     private JFormattedTextField JTextLote;
     private JFormattedTextField validade;
     
@@ -43,7 +44,7 @@ public class TelaAdicionaLote {
     public void draw(Produto produto, TelaProduto telaProduto){
         infoProdut = produto;
         this.telaProduto = telaProduto;
-        telaAdiciona = new JFrame("Novo Produto");
+        telaAdiciona = new JFrame("Novo Lote");
         telaAdiciona.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaAdiciona.setSize(500,500);
         telaAdiciona.setLayout(new MigLayout("top, center"));
@@ -91,12 +92,7 @@ public class TelaAdicionaLote {
         JLabel JQuant = new JLabel("Quantidade:");
         JQuant.setFont(fontTexto);
         JQuant.setPreferredSize(new Dimension(60,20));
-        try {
-            MaskFormatter Quant = new MaskFormatter("###");
-            JTextQuant = new JFormattedTextField(Quant);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Quantidade invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-        }
+        JTextQuant = new JTextField();
         JTextQuant.setPreferredSize(new Dimension(100, 20));
         JTextQuant.setFont(fontTexto);
         
@@ -185,9 +181,12 @@ public class TelaAdicionaLote {
     public void adicionarActionPerfomed(ActionEvent x){
         try{
             quantidade = Integer.parseInt(JTextQuant.getText());
-            infoProdut.setQuantity(quantidade);
-            infoProdut.setLote(JTextLote.getText());
-            infoProdut.setValidade(validade.getText());
+            
+            if(!JTextQuant.getText().isEmpty() || !JTextLote.getText().isEmpty() || !validade.getText().equals("//")){
+                infoProdut.setQuantity(quantidade);
+                infoProdut.setLote(JTextLote.getText());
+                infoProdut.setValidade(validade.getText());
+            }
             
             telaProduto.adicionaLinha();
             telaAdiciona.dispose();

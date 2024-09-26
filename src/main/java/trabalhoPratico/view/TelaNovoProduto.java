@@ -34,8 +34,10 @@ public class TelaNovoProduto {
     private JLabel JTipo;
     private JLabel JPreco;
     private int quantidade;
+    private JTextField TextNome;
+    private JTextField TextTipo;
     private JTextField TextPreco;
-    private JFormattedTextField JTextQuant;
+    private JTextField JTextQuant;
     private JFormattedTextField JTextLote;
     private JFormattedTextField validade;
     
@@ -57,9 +59,6 @@ public class TelaNovoProduto {
     }
     
     private void drawTela(){
-        
-        
-        
         Font fontTexto = new Font("sans-serif", Font.PLAIN, 15);
         
         panel = new JPanel();
@@ -71,7 +70,7 @@ public class TelaNovoProduto {
         
         JNome = new JLabel("Nome: ");
         JNome.setFont(fontTexto);
-        JTextField  TextNome = new JTextField();
+        TextNome = new JTextField();
         TextNome.setPreferredSize(new Dimension(100, 20));
         TextNome.setFont(fontTexto);
         
@@ -79,7 +78,7 @@ public class TelaNovoProduto {
         JTipo = new JLabel("Tipo:");
         JTipo.setFont(fontTexto);
         JTipo.setPreferredSize(new Dimension(60,20));
-        JTextField  TextTipo = new JTextField();
+        TextTipo = new JTextField();
         TextTipo.setPreferredSize(new Dimension(100, 20));
         TextTipo.setFont(fontTexto);
         
@@ -95,12 +94,7 @@ public class TelaNovoProduto {
         JLabel JQuant = new JLabel("Quantidade:");
         JQuant.setFont(fontTexto);
         JQuant.setPreferredSize(new Dimension(60,20));
-        try {
-            MaskFormatter Quant = new MaskFormatter("###");
-            JTextQuant = new JFormattedTextField(Quant);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Quantidade invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-        }
+        JTextQuant = new JTextField();
         JTextQuant.setPreferredSize(new Dimension(100, 20));
         JTextQuant.setFont(fontTexto);
         
@@ -121,7 +115,6 @@ public class TelaNovoProduto {
         JLabel JValid = new JLabel("Validade:");
         JValid.setFont(fontTexto);
         JValid.setPreferredSize(new Dimension(60,20));
-        
         try {
             MaskFormatter date = new MaskFormatter("##/##/####");
             validade = new JFormattedTextField(date);
@@ -191,17 +184,23 @@ public class TelaNovoProduto {
             
             try{
                 int preco = Integer.parseInt(TextPreco.getText());
+                quantidade = Integer.parseInt(JTextQuant.getText());
+                
+                if(!TextNome.getText().isEmpty() || !TextTipo.getText().isEmpty() || !TextPreco.getText().isEmpty() || !JTextQuant.getText().isEmpty() || !JTextLote.getText().isEmpty() || !validade.getText().equals("//")){
+                    infoProdut.setName(TextNome.getText());
+                    infoProdut.setCategory(TextTipo.getText());
+                    infoProdut.setPrice(TextPreco.getText());
+                    infoProdut.setQuantity(quantidade);
+                    infoProdut.setLote(JTextLote.getText());
+                    infoProdut.setValidade(validade.getText());  
+                }
+                else{
+                    System.out.println("O produto nao pode ser adicionado, há campos vazios");
+                }
             }
-            catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Preco invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "O produto nao pode ser adicionado", "Atenção", JOptionPane.ERROR_MESSAGE);
             }
-
-            infoProdut.setPrice(TextPreco.getText());
-            quantidade = Integer.parseInt(JTextQuant.getText());
-            infoProdut.setQuantity(quantidade);
-            infoProdut.setLote(JTextLote.getText());
-            infoProdut.setValidade(validade.getText());
-            telaProduto.atualizaTabela();
             JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso");
             telaAdiciona.dispose();
         }
