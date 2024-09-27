@@ -6,9 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
+import trabalhoPratico.controller.FechamentoTelaProduto;
 import trabalhoPratico.model.Produto;
-import trabalhoPratico.persistence.ProdutoPersistence;
-import trabalhoPratico.view.Tela;
 
 /**
  *
@@ -16,7 +15,6 @@ import trabalhoPratico.view.Tela;
  */
 public class TelaProduto implements ActionListener{
     private JFrame telaTabela;
-    private JPanel panelTabela;
     private JPanel panelInfo;
     private JPanel back;
     
@@ -28,17 +26,23 @@ public class TelaProduto implements ActionListener{
     
     private final int WIDTH = 540;
     private final int HEIGHT = 680;
-    private java.util.List<Produto> listaProdutos;
     private DefaultTableModel tableModel;
+    private JTable table;
     private Produto meuProduto;
     
     private JLabel total;
-    
-        
-    public void draw(Produto produto)
+
+    private TelaTabelaProdutos telaTabelaProdutos;
+
+    public TelaProduto(Produto produto, TelaTabelaProdutos telaTabelaProdutos)
     {
         meuProduto = produto;
+        this.telaTabelaProdutos = telaTabelaProdutos;
+    }
+    
         
+    public void draw()
+    {   
         telaTabela = new JFrame("Produto");
         telaTabela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaTabela.setLayout(new MigLayout("top, center"));
@@ -46,6 +50,7 @@ public class TelaProduto implements ActionListener{
         telaTabela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         telaTabela.setVisible(true);
         telaTabela.setLocationRelativeTo(null);
+        telaTabela.addWindowListener(new FechamentoTelaProduto(telaTabelaProdutos));
         
         drawInfo();
         telaTabela.pack();
@@ -64,7 +69,7 @@ public class TelaProduto implements ActionListener{
         JLabel lbProduto = new JLabel("Produto: "+ meuProduto.getName());
         lbProduto.setFont(fontTexto);
         lbProduto.setPreferredSize(new Dimension(250, 20));
-        JLabel lbPreco = new JLabel("Preco: " + meuProduto.getPrice());
+        JLabel lbPreco = new JLabel("Preco: R$ " + meuProduto.getPrice());
         lbPreco.setFont(fontTexto);
         lbPreco.setPreferredSize(new Dimension(150, 20));
         JLabel lbTipo = new JLabel("Tipo: " + meuProduto.getCategory());
@@ -85,10 +90,7 @@ public class TelaProduto implements ActionListener{
     
     private void drawTable()
     {
-        ProdutoPersistence prodPersis = new ProdutoPersistence();
         Font fontTexto = new Font("sans-serif", Font.PLAIN, 15);
-        
-        listaProdutos = prodPersis.read();
 
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Quantidade");
@@ -99,14 +101,14 @@ public class TelaProduto implements ActionListener{
         {
             tableModel.addRow(meuProduto.getProdutoProperties(i));
         }  
-        JTable table = new JTable(tableModel);  
+        table = new JTable(tableModel);  
         table.setDefaultEditor(Object.class, null);
         JScrollPane barraRolagem = new JScrollPane(table);
         table.setFont(fontTexto);
         barraRolagem.setBorder(BorderFactory.createEmptyBorder());
         barraRolagem.setPreferredSize(new Dimension(500,400));
         
-        total = new JLabel("Total:"+meuProduto.getTotalQuantity());
+        total = new JLabel("Total:"+meuProduto.totalQuantity());
         total.setPreferredSize(new Dimension(100, 30));
         total.setFont(fontTexto);
         
@@ -126,7 +128,7 @@ public class TelaProduto implements ActionListener{
         butAdiciona.setPreferredSize(new Dimension(120,30));
         butAdiciona.setFont(fontButton);
         
-        butEditar = new JButton("Editar");
+        butEditar = new JButton("Editar quantidade");
         butEditar.setPreferredSize(new Dimension(120, 30));
         butEditar.setFont(fontButton);
         
@@ -158,21 +160,40 @@ public class TelaProduto implements ActionListener{
         telaAdiciona.draw(meuProduto, this);
     }
     public void edita (ActionEvent ActionEvent) {
-        System.out.println("Produto sendo editado");  
+        int linha = table.getSelectedRow();
+
+        if(linha<0){
+            JOptionPane.showMessageDialog(telaTabela, "Selecione uma linha",
+            "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        TelaInformacoesLote telaLote = new TelaInformacoesLote(meuProduto, linha, this);
+        telaLote.draw();
     }
     
-    public void atualizaTabela()
+    public void adicionaLinha()
     {
         Object[] novoLote = {
             meuProduto.getQuantity().get(meuProduto.getQuantidaddeLotes()-1),
             meuProduto.getLote().get(meuProduto.getQuantidaddeLotes()-1),
             meuProduto.getValidade().get(meuProduto.getQuantidaddeLotes()-1)};
         tableModel.addRow(novoLote);
-        total.setText("Total:"+meuProduto.getTotalQuantity());
+        total.setText("Total:"+meuProduto.totalQuantity());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        telaTabelaProdutos.removeProduto(meuProduto);
+        telaTabela.dispose();
         JOptionPane.showMessageDialog(null, "Produto removido com sucesso");
+    }
+
+    public void atualiza()
+    {
+        telaTabela.setVisible(false);
+        telaTabela.removeAll();
+        draw();
+        telaTabela.setVisible(true);
     }
 }

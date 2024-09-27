@@ -82,7 +82,7 @@ public class TelaNovoProduto {
         JPreco = new JLabel("Preco: ");
         JPreco.setFont(fontTexto);
         JPreco.setPreferredSize(new Dimension(60,20));
-        JLabel TextPreco = new JLabel(infoProdut.getPrice());
+        JLabel TextPreco = new JLabel(infoProdut.getPrice().toString());
         TextPreco.setFont(fontTexto);
         TextPreco.setPreferredSize(new Dimension(100,20));
         
