@@ -102,6 +102,7 @@ public class TelaProduto implements ActionListener{
         {
             tableModel.addRow(meuProduto.getProdutoProperties(i));
         }  
+        
         table = new JTable(tableModel);  
         table.setDefaultEditor(Object.class, null);
         JScrollPane barraRolagem = new JScrollPane(table);
