@@ -191,7 +191,6 @@ public class TelaProduto implements ActionListener{
 
     public void atualiza()
     {
-        // table.setValueAt(meuProduto.getQuantity().get(linha), linha, 0);
         telaTabela.setVisible(false);
         telaTabela.removeAll();
         draw();

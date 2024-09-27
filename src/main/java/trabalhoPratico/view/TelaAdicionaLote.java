@@ -192,10 +192,12 @@ public class TelaAdicionaLote {
             JOptionPane.showMessageDialog(telaAdiciona, "O campo \"validade\" deve ser preenchido",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
             infoProdut.getQuantity().removeLast();
+            return;
         } catch (InvalidDataException e) {
             JOptionPane.showMessageDialog(telaAdiciona, "Data inválida",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
             infoProdut.getQuantity().removeLast();
+            return;
         }
 
         try {
@@ -217,6 +219,8 @@ public class TelaAdicionaLote {
             infoProdut.getValidade().removeLast();
             return;
         }
+        telaAdiciona.dispose();
+        telaProduto.atualiza();
     }
 
 }
