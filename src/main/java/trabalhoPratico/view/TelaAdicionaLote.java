@@ -1,20 +1,13 @@
 package trabalhoPratico.view;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.text.MaskFormatter;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.exception.EmptyStrException;
+import trabalhoPratico.exception.InvalidDataException;
 import trabalhoPratico.exception.NegativeNumberException;
 import trabalhoPratico.model.Produto;
 
@@ -32,8 +25,7 @@ public class TelaAdicionaLote {
     private JLabel JNome;
     private JLabel JTipo;
     private JLabel JPreco;
-    private int quantidade;
-    private JFormattedTextField JTextQuant;
+    private JTextField JTextQuant;
     private JFormattedTextField JTextLote;
     private JFormattedTextField validade;
     
@@ -86,13 +78,7 @@ public class TelaAdicionaLote {
         JPreco = new JLabel("Preco: ");
         JPreco.setFont(fontTexto);
         JPreco.setPreferredSize(new Dimension(60,20));
-//        try {
-//            MaskFormatter Quant = new MaskFormatter("###");
-//            JTextQuant = new JFormattedTextField(Quant);
-//        } catch (ParseException e) {
-//            JOptionPane.showMessageDialog(null, "Quantidade invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-//        }
-        JLabel TextPreco = new JLabel(infoProdut.getPrice());
+        JLabel TextPreco = new JLabel(infoProdut.getPrice().toString());
         TextPreco.setFont(fontTexto);
         TextPreco.setPreferredSize(new Dimension(100,20));
         
@@ -100,12 +86,7 @@ public class TelaAdicionaLote {
         JLabel JQuant = new JLabel("Quantidade:");
         JQuant.setFont(fontTexto);
         JQuant.setPreferredSize(new Dimension(60,20));
-        try {
-            MaskFormatter Quant = new MaskFormatter("###");
-            JTextQuant = new JFormattedTextField(Quant);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Quantidade invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-        }
+        JTextQuant = new JTextField();
         JTextQuant.setPreferredSize(new Dimension(100, 20));
         JTextQuant.setFont(fontTexto);
         
@@ -191,17 +172,50 @@ public class TelaAdicionaLote {
        	telaAdiciona.dispose();
     }
 
-    public void adicionarActionPerfomed(ActionEvent x) /*throws NegativeNumberException, EmptyStrException*/{
+    public void adicionarActionPerfomed(ActionEvent x) {
+        
         try{
-            quantidade = Integer.parseInt(JTextQuant.getText());
-            infoProdut.setQuantity(quantidade);
-            infoProdut.setLote(JTextLote.getText());
-            infoProdut.setValidade(validade.getText());
-            
-            telaProduto.adicionaLinha();
-            telaAdiciona.dispose();
+            infoProdut.setQuantity(Integer.parseInt(JTextQuant.getText()));
+        } catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"quantidade\" aceita apenas números",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch(NegativeNumberException e){
+            JOptionPane.showMessageDialog(telaAdiciona, "Insira uma quantidade positiva",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        catch (Exception e){
+
+        try {
+            infoProdut.setValidade(validade.getText());
+        } catch (EmptyStrException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"validade\" deve ser preenchido",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            infoProdut.getQuantity().removeLast();
+        } catch (InvalidDataException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "Data inválida",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            infoProdut.getQuantity().removeLast();
+        }
+
+        try {
+            String novoLote = JTextLote.getText();
+            for(String lote: infoProdut.getLote())
+            {
+                if(lote.equals(novoLote)){
+                    JOptionPane.showMessageDialog(telaAdiciona, "Lote já existente",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            infoProdut.setLote(novoLote);
+        } catch (EmptyStrException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Lote\" deve ser preenchido",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            infoProdut.getQuantity().removeLast();
+            infoProdut.getValidade().removeLast();
+            return;
         }
     }
 

@@ -24,6 +24,7 @@ public class TelaTabelaProdutos implements Tela {
     private List<Produto> listaProdutos;
     private JTable jtProdutos;
     private DefaultTableModel tableModel;
+    private JPanel panelTable;
 
     private Funcionario user;
 
@@ -42,10 +43,13 @@ public class TelaTabelaProdutos implements Tela {
         tela.getContentPane().setLayout(new MigLayout("top, center, fillx"));
         tela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         tela.setVisible(true);
+
         
         if(user.getRole().toLowerCase().equals("gerente"))
             drawButtons();
-
+        
+        panelTable = new JPanel(new MigLayout("fill"));
+        tela.getContentPane().add(panelTable, "grow");
         drawTable();
 
         tela.pack();
@@ -107,10 +111,7 @@ public class TelaTabelaProdutos implements Tela {
         JScrollPane barraRolagem = new JScrollPane(jtProdutos);
         barraRolagem.setBorder(BorderFactory.createEmptyBorder());
 
-        JPanel panel = new JPanel(new MigLayout("fill"));
-        panel.add(barraRolagem, "grow, wrap");
-        
-        tela.getContentPane().add(panel, "grow");
+        panelTable.add(barraRolagem, "grow, wrap");
     }
     
     public void adicionarNovoProduto()
@@ -122,9 +123,9 @@ public class TelaTabelaProdutos implements Tela {
     public void informacoesProduto()
     {
         Produto produto = listaProdutos.get(jtProdutos.getSelectedRow());
-        TelaProduto telaProduto = new TelaProduto();
+        TelaProduto telaProduto = new TelaProduto(produto, this);
 
-        telaProduto.draw(produto, this);
+        telaProduto.draw();
     }
     
     public void adicionarCategoria()
@@ -147,5 +148,13 @@ public class TelaTabelaProdutos implements Tela {
     public void salvaListaProdutos()
     {
         prodPersis.save(listaProdutos);
+    }
+
+    public void atualizaTabela()
+    {
+        panelTable.setVisible(false);
+        panelTable.removeAll();
+        drawTable();
+        panelTable.setVisible(true);
     }
 }

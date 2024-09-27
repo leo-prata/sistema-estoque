@@ -1,1 +1,32 @@
-[{"name":"Achocolatado Nescau","category":"Achocolatados","price":"R$8,99","totalQuantity":138,"validade":["11/12/2023","12/12/2024","20/05/2025"],"quantity":[3,10,15],"lote":["23043","12345","24242"],"quantidadeLotes":3}]
+[
+    {
+        "name": "Achocolatado Nescau",
+        "category": "Achocolatados",
+        "price": 8.99,
+        "validade": [
+            "20/05/2025",
+            "11/12/2005",
+            "11/12/2024",
+            "78/05/2024",
+            "12/12/2030",
+            "12/12/2022"
+        ],
+        "quantity": [
+            5,
+            10,
+            5,
+            12,
+            15,
+            12
+        ],
+        "lote": [
+            "24242",
+            "12315",
+            "45678",
+            "45677",
+            "85214",
+            "56468"
+        ],
+        "quantidadeLotes": 6
+    }
+]
