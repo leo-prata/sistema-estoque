@@ -1,10 +1,8 @@
 package trabalhoPratico.view;
 
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
 
 import java.awt.*;
-import java.text.ParseException;
 import trabalhoPratico.controller.CancelaEdicoesLote;
 import trabalhoPratico.controller.SalvaEdicoesLote;
 import trabalhoPratico.model.Produto;
@@ -14,8 +12,6 @@ public class TelaInformacoesLote {
 
     private JFrame tela;
     private JTextField tfQuantidade;
-    private JFormattedTextField tfLote;
-    private JFormattedTextField tfValidade;
 
     private Produto produto;
     private int linha;
@@ -77,8 +73,30 @@ public class TelaInformacoesLote {
 
     public void salva()
     {
-        produto.getQuantity().set(linha, Integer.parseInt(tfQuantidade.getText()));
-        telaProduto.atualizaLinha(linha);
+        int quantidade;
+        try{
+            quantidade = Integer.parseInt(tfQuantidade.getText());
+        } catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(tela, "Por favor, insira somente números",
+             "ERRO", JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+
+        if(quantidade < 0){
+            JOptionPane.showMessageDialog(tela, "Números negativos são inválidos",
+             "ERRO", JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+        
+        if(quantidade == 0){
+            produto.removeLote(linha);
+            telaProduto.atualiza();
+            tela.dispose();
+            return;
+        }
+
+        produto.getQuantity().set(linha, quantidade);
+        telaProduto.atualiza();
         tela.dispose();
     }
 

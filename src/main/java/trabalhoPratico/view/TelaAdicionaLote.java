@@ -1,21 +1,13 @@
 package trabalhoPratico.view;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.exception.EmptyStrException;
+import trabalhoPratico.exception.InvalidDataException;
 import trabalhoPratico.exception.NegativeNumberException;
 import trabalhoPratico.model.Produto;
 
@@ -33,7 +25,6 @@ public class TelaAdicionaLote {
     private JLabel JNome;
     private JLabel JTipo;
     private JLabel JPreco;
-    private int quantidade;
     private JTextField JTextQuant;
     private JFormattedTextField JTextLote;
     private JFormattedTextField validade;
@@ -84,7 +75,7 @@ public class TelaAdicionaLote {
         JPreco = new JLabel("Preco: ");
         JPreco.setFont(fontTexto);
         JPreco.setPreferredSize(new Dimension(60,20));
-        JLabel TextPreco = new JLabel(infoProdut.getPrice());
+        JLabel TextPreco = new JLabel(infoProdut.getPrice().toString());
         TextPreco.setFont(fontTexto);
         TextPreco.setPreferredSize(new Dimension(100,20));
         
@@ -178,21 +169,55 @@ public class TelaAdicionaLote {
        	telaAdiciona.dispose();
     }
 
-    public void adicionarActionPerfomed(ActionEvent x){
+    public void adicionarActionPerfomed(ActionEvent x) {
+        
         try{
-            quantidade = Integer.parseInt(JTextQuant.getText());
-            
-            if(!JTextQuant.getText().isEmpty() || !JTextLote.getText().isEmpty() || !validade.getText().equals("//")){
-                infoProdut.setQuantity(quantidade);
-                infoProdut.setLote(JTextLote.getText());
-                infoProdut.setValidade(validade.getText());
+            infoProdut.setQuantity(Integer.parseInt(JTextQuant.getText()));
+        } catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"quantidade\" aceita apenas números",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch(NegativeNumberException e){
+            JOptionPane.showMessageDialog(telaAdiciona, "Insira uma quantidade positiva",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            infoProdut.setValidade(validade.getText());
+        } catch (EmptyStrException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"validade\" deve ser preenchido",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            infoProdut.getQuantity().removeLast();
+            return;
+        } catch (InvalidDataException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "Data inválida",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            infoProdut.getQuantity().removeLast();
+            return;
+        }
+
+        try {
+            String novoLote = JTextLote.getText();
+            for(String lote: infoProdut.getLote())
+            {
+                if(lote.equals(novoLote)){
+                    JOptionPane.showMessageDialog(telaAdiciona, "Lote já existente",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
-            
-            telaProduto.adicionaLinha();
-            telaAdiciona.dispose();
+
+            infoProdut.setLote(novoLote);
+        } catch (EmptyStrException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Lote\" deve ser preenchido",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            infoProdut.getQuantity().removeLast();
+            infoProdut.getValidade().removeLast();
+            return;
         }
-        catch (Exception e){
-        }
+        telaAdiciona.dispose();
+        telaProduto.atualiza();
     }
 
 }

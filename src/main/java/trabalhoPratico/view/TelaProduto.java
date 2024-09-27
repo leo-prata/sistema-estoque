@@ -8,8 +8,6 @@ import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.controller.FechamentoTelaProduto;
 import trabalhoPratico.model.Produto;
-import trabalhoPratico.persistence.ProdutoPersistence;
-import trabalhoPratico.view.Tela;
 
 /**
  *
@@ -17,7 +15,6 @@ import trabalhoPratico.view.Tela;
  */
 public class TelaProduto implements ActionListener{
     private JFrame telaTabela;
-    private JPanel panelTabela;
     private JPanel panelInfo;
     private JPanel back;
     
@@ -36,13 +33,16 @@ public class TelaProduto implements ActionListener{
     private JLabel total;
 
     private TelaTabelaProdutos telaTabelaProdutos;
-    
-        
-    public void draw(Produto produto, TelaTabelaProdutos telaTabelaProdutos)
+
+    public TelaProduto(Produto produto, TelaTabelaProdutos telaTabelaProdutos)
     {
         meuProduto = produto;
         this.telaTabelaProdutos = telaTabelaProdutos;
+    }
+    
         
+    public void draw()
+    {   
         telaTabela = new JFrame("Produto");
         telaTabela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaTabela.setLayout(new MigLayout("top, center"));
@@ -69,7 +69,7 @@ public class TelaProduto implements ActionListener{
         JLabel lbProduto = new JLabel("Produto: "+ meuProduto.getName());
         lbProduto.setFont(fontTexto);
         lbProduto.setPreferredSize(new Dimension(250, 20));
-        JLabel lbPreco = new JLabel("Preco: " + meuProduto.getPrice());
+        JLabel lbPreco = new JLabel("Preco: R$ " + meuProduto.getPrice());
         lbPreco.setFont(fontTexto);
         lbPreco.setPreferredSize(new Dimension(150, 20));
         JLabel lbTipo = new JLabel("Tipo: " + meuProduto.getCategory());
@@ -90,7 +90,6 @@ public class TelaProduto implements ActionListener{
     
     private void drawTable()
     {
-        ProdutoPersistence prodPersis = new ProdutoPersistence();
         Font fontTexto = new Font("sans-serif", Font.PLAIN, 15);
 
         tableModel = new DefaultTableModel();
@@ -110,7 +109,7 @@ public class TelaProduto implements ActionListener{
         barraRolagem.setBorder(BorderFactory.createEmptyBorder());
         barraRolagem.setPreferredSize(new Dimension(500,400));
         
-        total = new JLabel("Total:"+meuProduto.getTotalQuantity());
+        total = new JLabel("Total:"+meuProduto.totalQuantity());
         total.setPreferredSize(new Dimension(100, 30));
         total.setFont(fontTexto);
         
@@ -158,11 +157,18 @@ public class TelaProduto implements ActionListener{
     }
 
     public void adiciona (ActionEvent ActionEvent) {
-        TelaNovoProduto telaAdiciona = new TelaNovoProduto();
-        telaAdiciona.draw(meuProduto, this);
+        TelaAdicionaLote telaNovoLote = new TelaAdicionaLote();
+        telaNovoLote.draw(meuProduto, this);
     }
     public void edita (ActionEvent ActionEvent) {
         int linha = table.getSelectedRow();
+
+        if(linha<0){
+            JOptionPane.showMessageDialog(telaTabela, "Selecione uma linha",
+            "ERRO", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         TelaInformacoesLote telaLote = new TelaInformacoesLote(meuProduto, linha, this);
         telaLote.draw();
     }
@@ -174,7 +180,7 @@ public class TelaProduto implements ActionListener{
             meuProduto.getLote().get(meuProduto.getQuantidaddeLotes()-1),
             meuProduto.getValidade().get(meuProduto.getQuantidaddeLotes()-1)};
         tableModel.addRow(novoLote);
-        total.setText("Total:"+meuProduto.getTotalQuantity());
+        total.setText("Total:"+meuProduto.totalQuantity());
     }
 
     @Override
@@ -184,8 +190,11 @@ public class TelaProduto implements ActionListener{
         JOptionPane.showMessageDialog(null, "Produto removido com sucesso");
     }
 
-    public void atualizaLinha(int linha)
+    public void atualiza()
     {
-        table.setValueAt(meuProduto.getQuantity().get(linha), linha, 0);
+        telaTabela.setVisible(false);
+        telaTabela.removeAll();
+        draw();
+        telaTabela.setVisible(true);
     }
 }

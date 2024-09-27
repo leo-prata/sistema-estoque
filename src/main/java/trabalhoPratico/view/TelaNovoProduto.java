@@ -86,7 +86,7 @@ public class TelaNovoProduto {
         JPreco = new JLabel("Preco: ");
         JPreco.setFont(fontTexto);
         JPreco.setPreferredSize(new Dimension(60,20));
-        TextPreco = new JTextField();
+        JLabel TextPreco = new JLabel(infoProdut.getPrice().toString());
         TextPreco.setFont(fontTexto);
         TextPreco.setPreferredSize(new Dimension(100,20));
         
@@ -183,13 +183,13 @@ public class TelaNovoProduto {
         if(!(TextPreco.getText().isEmpty()) ){
             
             try{
-                int preco = Integer.parseInt(TextPreco.getText());
+                Double preco = Double.parseDouble(TextPreco.getText());
                 quantidade = Integer.parseInt(JTextQuant.getText());
                 
                 if(!TextNome.getText().isEmpty() || !TextTipo.getText().isEmpty() || !TextPreco.getText().isEmpty() || !JTextQuant.getText().isEmpty() || !JTextLote.getText().isEmpty() || !validade.getText().equals("//")){
                     infoProdut.setName(TextNome.getText());
                     infoProdut.setCategory(TextTipo.getText());
-                    infoProdut.setPrice(TextPreco.getText());
+                    infoProdut.setPrice(preco);
                     infoProdut.setQuantity(quantidade);
                     infoProdut.setLote(JTextLote.getText());
                     infoProdut.setValidade(validade.getText());  

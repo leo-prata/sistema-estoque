@@ -21,6 +21,7 @@ public class FechamentoTelaProduto implements WindowListener{
     @Override
     public void windowClosing(WindowEvent e) {
         tela.salvaListaProdutos();
+        tela.atualizaTabela();
     }
 
     @Override
