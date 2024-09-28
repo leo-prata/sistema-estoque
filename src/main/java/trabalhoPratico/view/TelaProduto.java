@@ -129,7 +129,7 @@ public class TelaProduto implements ActionListener{
         butAdiciona.setPreferredSize(new Dimension(120,30));
         butAdiciona.setFont(fontButton);
         
-        butEditar = new JButton("Editar quantidade");
+        butEditar = new JButton("Editar lote");
         butEditar.setPreferredSize(new Dimension(120, 30));
         butEditar.setFont(fontButton);
         

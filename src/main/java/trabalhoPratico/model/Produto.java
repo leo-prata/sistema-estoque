@@ -54,8 +54,7 @@ public class Produto {
 
         setValidade(validade);
         setLote(lote);
-        setQuantity(quantity);
-        
+        setQuantity(quantity);   
     }
 
     public void setValidade(String validade) throws EmptyStrException, InvalidDataException {
