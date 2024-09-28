@@ -117,7 +117,7 @@ public class TelaTabelaProdutos implements Tela {
     public void adicionarActioPerfomed(ActionEvent e)
     {
         TelaNovoProduto novoProduto = new TelaNovoProduto();
-        novoProduto.draw();
+        novoProduto.draw(listaProdutos, this);
     }
     public void adicionarProduto(Produto novo)
     {

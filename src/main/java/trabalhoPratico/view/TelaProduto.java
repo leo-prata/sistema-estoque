@@ -186,6 +186,7 @@ public class TelaProduto implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         telaTabelaProdutos.removeProduto(meuProduto);
+        telaTabelaProdutos.atualizaTabela();
         telaTabela.dispose();
         JOptionPane.showMessageDialog(null, "Produto removido com sucesso");
     }

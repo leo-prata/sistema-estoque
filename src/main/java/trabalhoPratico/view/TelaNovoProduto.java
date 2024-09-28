@@ -10,11 +10,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
+import java.util.List;
 import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.exception.EmptyStrException;
 import trabalhoPratico.exception.InvalidDataException;
 import trabalhoPratico.exception.NegativeNumberException;
 import trabalhoPratico.model.Produto;
+import trabalhoPratico.persistence.ProdutoPersistence;
 
 /**
  *
@@ -34,11 +36,17 @@ public class TelaNovoProduto {
     private JTextField TextQuant;
     private JFormattedTextField TextLote;
     private JFormattedTextField validade;
+    private List<Produto> listaProdutos;
+    private TelaTabelaProdutos tabelaProduto;
     
-    private TelaProduto telaProduto;
     
     
-    public void draw(){
+    
+    public void draw(List lista, TelaTabelaProdutos tabelaProduto){
+        this.listaProdutos = lista;
+        this.tabelaProduto = tabelaProduto;
+        
+        
         telaAdiciona = new JFrame("Novo Produto");
         telaAdiciona.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaAdiciona.setSize(500,500);
@@ -180,6 +188,7 @@ public class TelaNovoProduto {
         } catch (EmptyStrException e) {
             JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Nome\" deve ser preenchido",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
             return;
         }
         try {
@@ -187,6 +196,7 @@ public class TelaNovoProduto {
         } catch (EmptyStrException e) {
             JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Tipo\" deve ser preenchido",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
             return;
         }
         
@@ -195,10 +205,12 @@ public class TelaNovoProduto {
         } catch(NumberFormatException e){
             JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Preco\" aceita apenas números",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
             return;
         } catch(NegativeNumberException e){
-            JOptionPane.showMessageDialog(telaAdiciona, "Insira um valor positivo",
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Preco\" aceita apenas números positivos",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
             return;
         }
         
@@ -208,10 +220,12 @@ public class TelaNovoProduto {
         } catch(NumberFormatException e) {
             JOptionPane.showMessageDialog(telaAdiciona, "O campo \"quantidade\" aceita apenas números",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
             return;
         } catch(NegativeNumberException e){
             JOptionPane.showMessageDialog(telaAdiciona, "Insira uma quantidade positiva",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
             return;
         }
         
@@ -220,6 +234,7 @@ public class TelaNovoProduto {
         } catch (EmptyStrException e) {
             JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Lote\" deve ser preenchido",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
             return;
         }
         
@@ -229,14 +244,20 @@ public class TelaNovoProduto {
         } catch (EmptyStrException e) {
             JOptionPane.showMessageDialog(telaAdiciona, "O campo \"validade\" deve ser preenchido",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
             return;
         } catch (InvalidDataException e) {
             JOptionPane.showMessageDialog(telaAdiciona, "Data inválida",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
             return;
         }
         
             escreve();
+            listaProdutos.add(novoProduto);
+            ProdutoPersistence prodPersist = new ProdutoPersistence();
+            prodPersist.save(listaProdutos);
+            tabelaProduto.atualizaTabela();
             JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso");
             telaAdiciona.dispose();
     }
