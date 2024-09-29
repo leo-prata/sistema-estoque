@@ -1,22 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package trabalhoPratico.view;
 
+import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.text.MaskFormatter;
+import java.util.List;
 import net.miginfocom.swing.MigLayout;
+import trabalhoPratico.exception.EmptyStrException;
+import trabalhoPratico.exception.InvalidDataException;
+import trabalhoPratico.exception.NegativeNumberException;
 import trabalhoPratico.model.Produto;
+import trabalhoPratico.persistence.ProdutoPersistence;
 
 /**
  *
@@ -25,24 +21,32 @@ import trabalhoPratico.model.Produto;
 public class TelaNovoProduto {
     private final int WIDTH = 560;
     private final int HEIGHT = 680;
-    private Produto infoProdut;
+    private Produto novoProduto;
     private JFrame telaAdiciona;
     private JPanel panel;
     private JPanel panelButtons;
-    private JLabel JNome;
-    private JLabel JTipo;
-    private JLabel JPreco;
     private int quantidade;
-    private JFormattedTextField JTextQuant;
-    private JFormattedTextField JTextLote;
+    private JTextField TextNome;
+    private JList listaCategoria;
+    private JTextField TextPreco;
+    private JTextField TextQuant;
+    private JFormattedTextField TextLote;
     private JFormattedTextField validade;
+    private List<Produto> listaProdutos;
+    private TelaTabelaProdutos tabelaProduto;
     
     
-    public void draw(Produto produto){
-        infoProdut = produto;
+    
+    
+    public void draw(List lista, TelaTabelaProdutos tabelaProduto){
+        this.listaProdutos = lista;
+        this.tabelaProduto = tabelaProduto;
+        
+        
         telaAdiciona = new JFrame("Novo Produto");
+        telaAdiciona.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaAdiciona.setSize(500,500);
-        telaAdiciona.setLayout(new MigLayout("top, center"));
+        telaAdiciona.setLayout(new MigLayout("center, center"));
         telaAdiciona.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         telaAdiciona.setLocationRelativeTo(null);
         telaAdiciona.setVisible(true);
@@ -51,53 +55,46 @@ public class TelaNovoProduto {
     }
     
     private void drawTela(){
-        
-        
-        
         Font fontTexto = new Font("sans-serif", Font.PLAIN, 15);
         
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(360, 250));
-        panel.setLayout(new MigLayout(
-                "",
-                "40[]25[]",
-                "40[]15[]15[]15[]15[]15[]"));
+        panel.setLayout(new MigLayout("center, center"));
         
-        JNome = new JLabel("Nome: ");
+        JLabel JNome = new JLabel("Nome: ");
         JNome.setFont(fontTexto);
-        JNome.setPreferredSize(new Dimension(60,20));
-        JLabel TextNome = new JLabel(infoProdut.getName());
+        TextNome = new JTextField();
+        TextNome.setPreferredSize(new Dimension(100, 20));
         TextNome.setFont(fontTexto);
-        TextNome.setPreferredSize(new Dimension(100,20));
         
         
-        JTipo = new JLabel("Tipo:");
+        JLabel JTipo = new JLabel("Tipo:");
         JTipo.setFont(fontTexto);
-        JTipo.setPreferredSize(new Dimension(60,20));
-        JLabel TextTipo = new JLabel(infoProdut.getCategory());
-        TextTipo.setFont(fontTexto);
-        TextTipo.setPreferredSize(new Dimension(100,20));
         
+
+        String[] pessoas = { "eu","voce","ela","ele"};
+        listaCategoria = new JList (pessoas);
+        listaCategoria.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scroll = new JScrollPane (listaCategoria);
+        scroll.setPreferredSize(new Dimension(100,100));
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        listaCategoria.setPreferredSize(new Dimension(100,100));
         
-        JPreco = new JLabel("Preco: ");
+
+        JLabel JPreco = new JLabel("Preco: ");
         JPreco.setFont(fontTexto);
         JPreco.setPreferredSize(new Dimension(60,20));
-        JLabel TextPreco = new JLabel(infoProdut.getPrice().toString());
+        TextPreco = new JTextField();
         TextPreco.setFont(fontTexto);
         TextPreco.setPreferredSize(new Dimension(100,20));
         
         
         JLabel JQuant = new JLabel("Quantidade:");
         JQuant.setFont(fontTexto);
-        JQuant.setPreferredSize(new Dimension(60,20));
-        try {
-            MaskFormatter Quant = new MaskFormatter("###");
-            JTextQuant = new JFormattedTextField(Quant);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Quantidade invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
-        }
-        JTextQuant.setPreferredSize(new Dimension(100, 20));
-        JTextQuant.setFont(fontTexto);
+        JQuant.setPreferredSize(new Dimension(80,20));
+        TextQuant = new JTextField();
+        TextQuant.setPreferredSize(new Dimension(100, 20));
+        TextQuant.setFont(fontTexto);
         
         
         JLabel JLote = new JLabel("Lote:");
@@ -105,49 +102,46 @@ public class TelaNovoProduto {
         JLote.setPreferredSize(new Dimension(60,20));
         try {
             MaskFormatter lote = new MaskFormatter("#####");
-            JTextLote = new JFormattedTextField(lote);
+            TextLote = new JFormattedTextField(lote);
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(null, "Lote invalido", "Atenção", JOptionPane.ERROR_MESSAGE);
         }
-        JTextLote.setPreferredSize(new Dimension(100, 20));
-        JTextLote.setFont(fontTexto);
+        TextLote.setPreferredSize(new Dimension(100, 20));
+        TextLote.setFont(fontTexto);
         
         
         JLabel JValid = new JLabel("Validade:");
         JValid.setFont(fontTexto);
         JValid.setPreferredSize(new Dimension(60,20));
-        
         try {
             MaskFormatter date = new MaskFormatter("##/##/####");
             validade = new JFormattedTextField(date);
-        } catch (ParseException e) {
+        } catch (ParseException e){
             JOptionPane.showMessageDialog(null, "Data Invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
         }
+        
         
         validade.setPreferredSize(new Dimension(100, 20));
         validade.setFont(fontTexto);
         
         panel.add(JNome);
-        panel.add(TextNome, "span");
+        panel.add(TextNome, "wrap");
         
         panel.add(JTipo);
-        panel.add(TextTipo, "span");
+        panel.add(scroll, "wrap");
         
         panel.add(JPreco);
-        panel.add(TextPreco, "span");
+        panel.add(TextPreco, "wrap");
         
         panel.add(JQuant);
-        panel.add(JTextQuant, "wrap");
+        panel.add(TextQuant, "wrap");
         
         panel.add(JLote);
-        panel.add(JTextLote, "wrap");
+        panel.add(TextLote, "wrap");
         
         panel.add(JValid);
         panel.add(validade, "wrap");
-        
-        
         drawButtons();
-        
         
         telaAdiciona.getContentPane().add(panel,"wrap");
         telaAdiciona.getContentPane().add(panelButtons);
@@ -161,7 +155,6 @@ public class TelaNovoProduto {
                 "",
                 "40[]40[]",
                 "20[]"));
-        
         JButton cancela = new JButton("Cancelar");
         cancela.setPreferredSize(new Dimension(120,30));
         cancela.setFont(fontButton);
@@ -181,18 +174,85 @@ public class TelaNovoProduto {
        	telaAdiciona.dispose();
     }
 
-    public void adicionarActionPerfomed(ActionEvent x) /*throws NegativeNumberException, EmptyStrException*/{
+    public void adicionarActionPerfomed(ActionEvent x){
+//      Prduto que recebe as informações e vai ser adicionado na lista
+        novoProduto = new Produto();
+
+        try {
+            novoProduto.setName(TextNome.getText());
+        } catch (EmptyStrException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Nome\" deve ser preenchido",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
+            return;
+        }
+        try {
+            novoProduto.setCategory(listaCategoria.getSelectedValue().toString());
+        } catch (EmptyStrException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Tipo\" deve ser preenchido",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
+            return;
+        }
+        
         try{
-            quantidade = Integer.parseInt(JTextQuant.getText());
-            System.out.println(quantidade);
-            
-            infoProdut.setQuantity(quantidade);
-            infoProdut.setLote(JTextLote.getText());
-            infoProdut.setValidade(validade.getText());
+           novoProduto.setPrice(Double.valueOf(TextPreco.getText())); 
+        } catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Preco\" aceita apenas números",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
+            return;
+        } catch(NegativeNumberException e){
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Preco\" aceita apenas números positivos",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
+            return;
         }
-        catch (Exception e){
-            JOptionPane.showMessageDialog(null, "ERRO");
+        
+        
+        try{
+            novoProduto.setQuantity(Integer.parseInt(TextQuant.getText()));
+        } catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Quantidade\" aceita apenas números",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
+            return;
+        } catch(NegativeNumberException e){
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Quantidade\" aceita apenas números positivos",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
+            return;
         }
-        JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso");
+        
+        try {
+            novoProduto.setLote(TextLote.getText());
+        } catch (EmptyStrException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Lote\" deve ser preenchido",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
+            return;
+        }
+        
+        
+        try {
+            novoProduto.setValidade(validade.getText());
+        } catch (EmptyStrException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"validade\" deve ser preenchido",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
+            return;
+        } catch (InvalidDataException e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "Data inválida",
+                "ERRO", JOptionPane.ERROR_MESSAGE);
+            novoProduto = null;
+            return;
+        }
+        
+            listaProdutos.add(novoProduto);
+            ProdutoPersistence prodPersist = new ProdutoPersistence();
+            prodPersist.save(listaProdutos);
+            tabelaProduto.atualizaTabela();
+            JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso");
+            telaAdiciona.dispose();
     }
 }

@@ -35,7 +35,7 @@ public class TelaAdicionaLote {
     public void draw(Produto produto, TelaProduto telaProduto){
         infoProdut = produto;
         this.telaProduto = telaProduto;
-        telaAdiciona = new JFrame("Novo Produto");
+        telaAdiciona = new JFrame("Novo Lote");
         telaAdiciona.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaAdiciona.setSize(500,500);
         telaAdiciona.setLayout(new MigLayout("top, center"));
@@ -47,9 +47,6 @@ public class TelaAdicionaLote {
     }
     
     private void drawTela(){
-        
-        
-        
         Font fontTexto = new Font("sans-serif", Font.PLAIN, 15);
         
         panel = new JPanel();
