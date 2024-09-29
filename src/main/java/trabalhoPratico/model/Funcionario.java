@@ -23,9 +23,9 @@ public class Funcionario {
     private String password;
  
 
-    public Funcionario(String nome, Date dataNascimento, double salario, String role, String password) throws EmptyStrException, NumberFormatException, CpfException  {
+    public Funcionario(String nome, String cpf, Date dataNascimento, double salario, String role, String password) throws EmptyStrException, NumberFormatException, CpfException  {
         this.nome = nome;
-        //setCpf(cpf);
+        setCpf(cpf);
         this.dataNascimento = dataNascimento;
         this.salario = salario;
         setRole(role);
@@ -82,8 +82,9 @@ public class Funcionario {
         this.role = role;
     }
     
-    public void setCpf(Cpf cpf) throws EmptyStrException, CpfException, NumberFormatException {
-        this.cpf = cpf;
+    public void setCpf(String cpf) throws EmptyStrException, CpfException, NumberFormatException {
+        Cpf cpfStr = new Cpf(cpf);
+        this.cpf = cpfStr;
     }
 
     @Override
