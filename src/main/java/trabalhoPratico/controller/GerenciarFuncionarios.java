@@ -5,6 +5,7 @@ package trabalhoPratico.controller;
  * @author leopp
  */
 import trabalhoPratico.model.Funcionario;
+import trabalhoPratico.model.Cpf;
 import trabalhoPratico.persistence.FuncionarioPersistence;
 import trabalhoPratico.persistence.Persistence;
 import trabalhoPratico.view.TelaFuncionario;
@@ -50,6 +51,7 @@ public class GerenciarFuncionarios implements WindowListener {
             }
         });
     }
+    
 
     @Override
     public void windowOpened(WindowEvent e) {
@@ -59,9 +61,21 @@ public class GerenciarFuncionarios implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        funcionarioPersistence.save(tela.getListaFuncionarios().getSelectedValuesList());
+        List<Funcionario> todosFuncionarios = getTodosFuncionarios();
+        funcionarioPersistence.save(todosFuncionarios);
     }
+    
+    private List<Funcionario> getTodosFuncionarios() {
+        ListModel<Funcionario> model = tela.getListaFuncionarios().getModel();
+        List<Funcionario> funcionarios = new ArrayList<>();
 
+        for (int i = 0; i < model.getSize(); i++) {
+            funcionarios.add(model.getElementAt(i));
+        }
+
+        return funcionarios;
+    }
+    
     private void adicionaFuncionario() {
         abrirFormularioFuncionario(null);
     }
@@ -77,7 +91,7 @@ public class GerenciarFuncionarios implements WindowListener {
 
     private void abrirFormularioFuncionario(Funcionario funcionarioExistente) {
         JTextField nomeField = new JTextField();
-        JTextField cpfField = new JTextField();
+        //JTextField cpfField = new JTextField();
         JTextField dataNascimentoField = new JTextField();
         JTextField salarioField = new JTextField();
         JTextField roleField = new JTextField(); 
@@ -85,8 +99,8 @@ public class GerenciarFuncionarios implements WindowListener {
 
         if (funcionarioExistente != null) {
             nomeField.setText(funcionarioExistente.getNome());
-            cpfField.setText(funcionarioExistente.getCpf());
-            cpfField.setEditable(false); 
+            //cpfField.setText(funcionarioExistente.getCpf().toString());
+            //cpfField.setEditable(false); 
             dataNascimentoField.setText(new SimpleDateFormat("dd/MM/yyyy").format(funcionarioExistente.getDataNascimento()));
             salarioField.setText(String.valueOf(funcionarioExistente.getSalario()));
             roleField.setText(funcionarioExistente.getRole());
@@ -97,8 +111,8 @@ public class GerenciarFuncionarios implements WindowListener {
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
         formPanel.add(new JLabel("Nome:"));
         formPanel.add(nomeField);
-        formPanel.add(new JLabel("CPF:"));
-        formPanel.add(cpfField);
+        //formPanel.add(new JLabel("CPF:"));
+        //formPanel.add(cpfField);
         formPanel.add(new JLabel("Data de Nascimento (dd/MM/yyyy):"));
         formPanel.add(dataNascimentoField);
         formPanel.add(new JLabel("Salário:"));
@@ -114,13 +128,13 @@ public class GerenciarFuncionarios implements WindowListener {
 
         if (result == JOptionPane.OK_OPTION) {
             String nome = nomeField.getText();
-            String cpf = cpfField.getText();
+            //String cpfStr = cpfField.getText();
             String dataNascimentoStr = dataNascimentoField.getText();
             String salarioStr = salarioField.getText();
             String role = roleField.getText();
             String password = passwordField.getText();
-
-            if (nome.isEmpty() || cpf.isEmpty() || dataNascimentoStr.isEmpty() || salarioStr.isEmpty() || role.isEmpty() || password.isEmpty()) {
+            
+            if (nome.isEmpty() || dataNascimentoStr.isEmpty() || salarioStr.isEmpty() || role.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(tela, "Todos os campos devem ser preenchidos.");
                 return;
             }
@@ -142,12 +156,14 @@ public class GerenciarFuncionarios implements WindowListener {
             }
 
             try {
+                //Cpf cpf = new Cpf(cpfStr);
                 if (funcionarioExistente == null) {
-                    Funcionario novoFuncionario = new Funcionario(nome, cpf, dataNascimento, salario, role, password);
+                    Funcionario novoFuncionario = new Funcionario(nome, dataNascimento, salario, role, password);
                     ((FuncionarioPersistence) funcionarioPersistence).add(novoFuncionario);
                 } else {
                     funcionarioExistente.setNome(nome);
                     funcionarioExistente.setDataNascimento(dataNascimento);
+                    //funcionarioExistente.setCpf(cpf);
                     funcionarioExistente.setSalario(salario);
                     funcionarioExistente.setRole(role);
                     funcionarioExistente.setPassword(password);

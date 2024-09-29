@@ -1,13 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package trabalhoPratico.controller;
-
-/**
- *
- * @author leopp
- */
 
 import trabalhoPratico.model.Categoria;
 import trabalhoPratico.persistence.CategoriaPersistence;
@@ -19,7 +10,7 @@ import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.List;
+import java.util.*;
 
 public class GerenciarCategoria implements WindowListener {
 
@@ -60,12 +51,24 @@ public class GerenciarCategoria implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        categoriaPersistence.save(tela.getListaCategorias().getSelectedValuesList());
+        List<Categoria> todasCategorias = getTodasCategorias();
+        categoriaPersistence.save(todasCategorias);
     }
 
     private void adicionaCategoria() {
         abrirFormularioCategoria(null);
     }
+    
+    private List<Categoria> getTodasCategorias() {
+    ListModel<Categoria> model = tela.getListaCategorias().getModel();
+    List<Categoria> categorias = new ArrayList<>();
+
+    for (int i = 0; i < model.getSize(); i++) {
+        categorias.add(model.getElementAt(i));
+    }
+
+    return categorias;
+}
 
     private void editaCategoria() {
         Categoria categoriaSelecionada = tela.getListaCategorias().getSelectedValue();
@@ -75,52 +78,57 @@ public class GerenciarCategoria implements WindowListener {
             JOptionPane.showMessageDialog(tela, "Selecione uma categoria para editar.");
         }
     }
+    
 
+    
     private void abrirFormularioCategoria(Categoria categoriaExistente) {
-        JTextField nomeField = new JTextField();
+    JTextField nomeField = new JTextField();
 
-        if (categoriaExistente != null) {
-            nomeField.setText(categoriaExistente.getNome());
-        }
-
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
-        formPanel.add(new JLabel("Nome da Categoria:"));
-        formPanel.add(nomeField);
-
-        int result = JOptionPane.showConfirmDialog(null, formPanel, 
-                (categoriaExistente == null ? "Adicionar Nova Categoria" : "Editar Categoria"), JOptionPane.OK_CANCEL_OPTION);
-
-        if (result == JOptionPane.OK_OPTION) {
-            String nome = nomeField.getText();
-
-            if (nome.isEmpty()) {
-                JOptionPane.showMessageDialog(tela, "O nome da categoria deve ser preenchido.");
-                return;
-            }
-
-            try {
-                if (categoriaExistente == null) {
-                    Categoria novaCategoria = new Categoria(nome);
-                    ((CategoriaPersistence) categoriaPersistence).add(novaCategoria);
-                } else {
-                    categoriaExistente.setNome(nome);
-                    ((CategoriaPersistence) categoriaPersistence).update(categoriaExistente);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(tela, "Erro ao salvar a categoria: " + e.getMessage());
-                return;
-            }
-
-            tela.carregaCategorias(categoriaPersistence.read());
-        }
+    if (categoriaExistente != null) {
+        nomeField.setText(categoriaExistente.getNome());
     }
+
+    JPanel formPanel = new JPanel();
+    formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+    formPanel.add(new JLabel("Nome da Categoria:"));
+    formPanel.add(nomeField);
+
+    int result = JOptionPane.showConfirmDialog(null, formPanel,
+            (categoriaExistente == null ? "Adicionar Nova Categoria" : "Editar Categoria"), JOptionPane.OK_CANCEL_OPTION);
+
+    if (result == JOptionPane.OK_OPTION) {
+        String nome = nomeField.getText();
+
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(tela, "O nome da categoria deve ser preenchido.");
+            return;
+        }
+
+        try {
+            if (categoriaExistente == null) {
+                
+                Categoria novaCategoria = new Categoria(nome);
+                ((CategoriaPersistence) categoriaPersistence).add(novaCategoria);
+            } else {
+               
+                categoriaExistente.setNome(nome);
+                ((CategoriaPersistence) categoriaPersistence).update(categoriaExistente);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(tela, "Erro ao salvar a categoria: " + e.getMessage());
+            return;
+        }
+
+       
+        tela.carregaCategorias(categoriaPersistence.read());
+    }
+}
+
 
     private void removeCategoria() {
         Categoria categoriaSelecionada = tela.getListaCategorias().getSelectedValue();
         if (categoriaSelecionada != null) {
-            String nome = categoriaSelecionada.getNome();
-            ((CategoriaPersistence) categoriaPersistence).remove(nome);
+            ((CategoriaPersistence) categoriaPersistence).remove(categoriaSelecionada.getNome());
             tela.carregaCategorias(categoriaPersistence.read());
         } else {
             JOptionPane.showMessageDialog(tela, "Selecione uma categoria para remover.");

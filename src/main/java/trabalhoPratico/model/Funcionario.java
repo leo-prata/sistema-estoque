@@ -9,6 +9,7 @@ package trabalhoPratico.model;
  * @author leopp
  */
 import java.util.Date;
+import java.util.UUID;
 import trabalhoPratico.exception.CpfException;
 import trabalhoPratico.exception.EmptyStrException;
 
@@ -20,19 +21,23 @@ public class Funcionario {
     private double salario;
     private String role;
     private String password;
+ 
 
-    public Funcionario(String nome, String cpf, Date dataNascimento, double salario, String role, String password) throws EmptyStrException, NumberFormatException, CpfException  {
+    public Funcionario(String nome, Date dataNascimento, double salario, String role, String password) throws EmptyStrException, NumberFormatException, CpfException  {
         this.nome = nome;
-        setCpf(cpf);
+        //setCpf(cpf);
         this.dataNascimento = dataNascimento;
         this.salario = salario;
         setRole(role);
         setPassword(password);
+        
+   
     }
 
     public String getNome() {
         return nome;
     }
+    
 
     public String getCpf() {
         return cpf.getCpf();
@@ -77,8 +82,8 @@ public class Funcionario {
         this.role = role;
     }
     
-    public void setCpf(String cpf) throws EmptyStrException, CpfException, NumberFormatException {
-        this.cpf = new Cpf(cpf);
+    public void setCpf(Cpf cpf) throws EmptyStrException, CpfException, NumberFormatException {
+        this.cpf = cpf;
     }
 
     @Override
