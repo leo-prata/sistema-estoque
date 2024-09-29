@@ -26,7 +26,7 @@ public class TelaFuncionario extends JFrame {
         super("Gerenciamento de Funcionários");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        setSize(400, 300);
+        setSize(800, 300);
 
         listaModel = new DefaultListModel<>();
         listaFuncionarios = new JList<>(listaModel);

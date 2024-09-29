@@ -1,16 +1,1 @@
-[{
-        "name": "admin",
-        "cpf": {
-            "cpf": "12345678909"
-        },
-        "password": "admin",
-        "role": "Gerente"
-    },
-    {
-        "name": "Jorge da Silva",
-        "cpf": {
-            "cpf": "43808674040"
-        },
-        "password": "1234",
-        "role": "Caixa"
-    }]
+[{"nome":"Admin","cpf":{"cpf":"12345678909"},"dataNascimento":"Nov 11, 1111, 12:00:00 AM","salario":1000.0,"role":"gerente","password":"1234"},{"nome":"Jorge da Silva","cpf":{"cpf":"11826149651"},"dataNascimento":"May 12, 1975, 12:00:00 AM","salario":5000.0,"role":"estoquista","password":"senha"}]

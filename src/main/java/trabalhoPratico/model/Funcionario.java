@@ -4,6 +4,7 @@
  */
 package trabalhoPratico.model;
 
+import java.text.SimpleDateFormat;
 /**
  *
  * @author leopp
@@ -40,7 +41,7 @@ public class Funcionario {
     
 
     public String getCpf() {
-        return cpf.getCpf();
+        return cpf.toString();
     }
 
     public Date getDataNascimento() {
@@ -89,6 +90,7 @@ public class Funcionario {
 
     @Override
     public String toString() {
-        return "Nome: " + nome + ", CPF: " + cpf + ", Data de Nascimento: " + dataNascimento + ", Salário: " + salario;
+        return "Nome: " + nome + ", Cargo: " + role + ", CPF: " + cpf + ", Data de Nascimento: " +
+            new SimpleDateFormat("dd/MM/yyyy").format(dataNascimento) + ", Salário: R$" + salario;
     }
 }

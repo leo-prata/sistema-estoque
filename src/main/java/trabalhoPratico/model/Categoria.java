@@ -41,7 +41,7 @@ public class Categoria {
 
     @Override
     public String toString() {
-        return "Categoria: " + nome;
+        return nome;
     }
 
 }

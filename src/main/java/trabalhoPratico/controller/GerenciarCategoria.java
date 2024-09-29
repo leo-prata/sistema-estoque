@@ -60,11 +60,11 @@ public class GerenciarCategoria implements WindowListener {
     }
     
     private List<Categoria> getTodasCategorias() {
-    ListModel<Categoria> model = tela.getListaCategorias().getModel();
-    List<Categoria> categorias = new ArrayList<>();
+        ListModel<Categoria> model = tela.getListaCategorias().getModel();
+        List<Categoria> categorias = new ArrayList<>();
 
-    for (int i = 0; i < model.getSize(); i++) {
-        categorias.add(model.getElementAt(i));
+        for (int i = 0; i < model.getSize(); i++) {
+            categorias.add(model.getElementAt(i));
     }
 
     return categorias;
@@ -98,10 +98,20 @@ public class GerenciarCategoria implements WindowListener {
 
     if (result == JOptionPane.OK_OPTION) {
         String nome = nomeField.getText();
+        nome = nome.strip();
+        nome = nome.toLowerCase();
 
         if (nome.isEmpty()) {
             JOptionPane.showMessageDialog(tela, "O nome da categoria deve ser preenchido.");
             return;
+        }
+
+        for(Categoria categoria: getTodasCategorias())
+        {
+            if(categoria.getNome().equals(nome)){
+                JOptionPane.showMessageDialog(tela, "Categoria já existente");
+                return;
+            }
         }
 
         try {

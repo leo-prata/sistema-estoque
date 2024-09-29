@@ -11,6 +11,7 @@ import trabalhoPratico.view.TelaFuncionario;
 
 import javax.swing.*;
 import java.awt.event.WindowListener;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -105,8 +106,14 @@ public class GerenciarFuncionarios implements WindowListener {
             dataNascimentoField = new JFormattedTextField(mascaraData);
         }catch(ParseException e){}
         JTextField salarioField = new JTextField();
-        JTextField roleField = new JTextField(); 
-        JTextField passwordField = new JTextField(); 
+        
+        String[] cargos = {"gerente", "caixa", "estoquista"};
+        JList<String> roleField = new JList<>(cargos);
+        roleField.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane panelCargos = new JScrollPane(roleField);
+        panelCargos.setPreferredSize(new Dimension(0, 60));
+
+        JPasswordField passwordField = new JPasswordField(); 
         
         
 
@@ -116,7 +123,7 @@ public class GerenciarFuncionarios implements WindowListener {
             cpfField.setEditable(false); 
             dataNascimentoField.setText(new SimpleDateFormat("dd/MM/yyyy").format(funcionarioExistente.getDataNascimento()));
             salarioField.setText(String.valueOf(funcionarioExistente.getSalario()));
-            roleField.setText(funcionarioExistente.getRole());
+            roleField.setSelectedValue(funcionarioExistente.getRole(), true);
             passwordField.setText(funcionarioExistente.getPassword());
         }
 
@@ -130,8 +137,8 @@ public class GerenciarFuncionarios implements WindowListener {
         formPanel.add(dataNascimentoField);
         formPanel.add(new JLabel("Salário:"));
         formPanel.add(salarioField);
-        formPanel.add(new JLabel("Role:")); 
-        formPanel.add(roleField);
+        formPanel.add(new JLabel("Cargo:")); 
+        formPanel.add(panelCargos);
         formPanel.add(new JLabel("Password:"));
         formPanel.add(passwordField);
 
@@ -144,10 +151,16 @@ public class GerenciarFuncionarios implements WindowListener {
             String cpfStr = cpfField.getText();
             String dataNascimentoStr = dataNascimentoField.getText();
             String salarioStr = salarioField.getText();
-            String role = roleField.getText();
-            String password = passwordField.getText();
+            String role;
+            try{
+                role = roleField.getSelectedValue().toString();
+            } catch(NullPointerException e){
+                role = "";
+            }
+            String password = String.valueOf(passwordField.getPassword());
             
-            if (nome.isEmpty() || cpfStr.isEmpty() || dataNascimentoStr.isEmpty() || salarioStr.isEmpty() || role.isEmpty() || password.isEmpty()) {
+            if (nome.isEmpty() || cpfStr.equals("   .   .   -  ")|| dataNascimentoStr.equals("  /  /    ") 
+            || salarioStr.isEmpty() || role.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(tela, "Todos os campos devem ser preenchidos.");
                 return;
             }
@@ -166,6 +179,14 @@ public class GerenciarFuncionarios implements WindowListener {
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(tela, "Salário inválido. Deve ser um número.");
                 return;
+            }
+
+            for(Funcionario funcionario: getTodosFuncionarios())
+            {
+                if(cpfStr.equals(funcionario.getCpf().toString())){
+                    JOptionPane.showMessageDialog(tela, "Já existe um funcionário com este cpf.");
+                    return;
+                }
             }
 
             try {

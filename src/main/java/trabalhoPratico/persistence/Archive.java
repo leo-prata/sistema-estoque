@@ -22,7 +22,6 @@ public class Archive {
             e.printStackTrace();
         }
 
-        System.out.println("Reading file: " + filePath);
         return content.toString();
     }
 
@@ -30,7 +29,6 @@ public class Archive {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
             writer.write(content);
             writer.flush();
-            System.out.println("Saving file: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }

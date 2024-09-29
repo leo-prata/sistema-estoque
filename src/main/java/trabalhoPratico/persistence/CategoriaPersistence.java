@@ -46,7 +46,6 @@ public class CategoriaPersistence implements Persistence<Categoria> {
         }
         
         for (Categoria categoria : categorias) {
-            System.out.println("ID da categoria: " + categoria.getId() + ", Nome: " + categoria.getNome());
             if (categoria.getId() == null || categoria.getId().isEmpty()) {
                 categoria.setId(UUID.randomUUID().toString());
         }
@@ -57,14 +56,12 @@ public class CategoriaPersistence implements Persistence<Categoria> {
      public void add(Categoria categoria) {
         List<Categoria> categorias = read();
         categorias.add(categoria);
-        System.out.println("Adding category: " + categoria.getNome());
         save(categorias);
     }
 
     public void remove(String nome) {
         List<Categoria> categorias = read();
         categorias.removeIf(categoria -> categoria.getNome().equals(nome));
-        System.out.println("Removing category: " + nome);
         save(categorias);
     }
     
