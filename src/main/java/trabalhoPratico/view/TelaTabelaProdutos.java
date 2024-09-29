@@ -3,6 +3,7 @@ package trabalhoPratico.view;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 
 import trabalhoPratico.controller.AbrirInformacoesProduto;
@@ -65,7 +66,7 @@ public class TelaTabelaProdutos implements Tela {
         tela.getContentPane().add(panel, "grow, wrap");
 
         buttonAdicionarProduto = new JButton("Adicionar Produto");
-        buttonAdicionarProduto.addActionListener(new AdicionarNovoProduto(this));
+        buttonAdicionarProduto.addActionListener(this::adicionarActioPerfomed);
         buttonAdicionarProduto.setPreferredSize(new Dimension(150, 50));
         panel.add(buttonAdicionarProduto, "center, center");
         
@@ -113,11 +114,14 @@ public class TelaTabelaProdutos implements Tela {
 
         panelTable.add(barraRolagem, "grow, wrap");
     }
-    
-    public void adicionarNovoProduto()
+    public void adicionarActioPerfomed(ActionEvent e)
     {
-        //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMADA DA TELA DE ADICIONAR NOVO PRODUTO
-        System.out.println("adicionando produto");
+        TelaNovoProduto novoProduto = new TelaNovoProduto();
+        novoProduto.draw(listaProdutos, this);
+    }
+    public void adicionarProduto(Produto novo)
+    {
+        listaProdutos.add(novo);
     }
     
     public void informacoesProduto()

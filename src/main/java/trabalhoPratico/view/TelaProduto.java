@@ -101,6 +101,7 @@ public class TelaProduto implements ActionListener{
         {
             tableModel.addRow(meuProduto.getProdutoProperties(i));
         }  
+        
         table = new JTable(tableModel);  
         table.setDefaultEditor(Object.class, null);
         JScrollPane barraRolagem = new JScrollPane(table);
@@ -156,8 +157,8 @@ public class TelaProduto implements ActionListener{
     }
 
     public void adiciona (ActionEvent ActionEvent) {
-        TelaAdicionaLote telaAdiciona = new TelaAdicionaLote();
-        telaAdiciona.draw(meuProduto, this);
+        TelaAdicionaLote telaNovoLote = new TelaAdicionaLote();
+        telaNovoLote.draw(meuProduto, this);
     }
     public void edita (ActionEvent ActionEvent) {
         int linha = table.getSelectedRow();
@@ -185,6 +186,7 @@ public class TelaProduto implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         telaTabelaProdutos.removeProduto(meuProduto);
+        telaTabelaProdutos.atualizaTabela();
         telaTabela.dispose();
         JOptionPane.showMessageDialog(null, "Produto removido com sucesso");
     }

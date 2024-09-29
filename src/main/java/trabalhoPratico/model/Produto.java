@@ -6,7 +6,6 @@ import java.util.List;
 import trabalhoPratico.exception.EmptyStrException;
 import trabalhoPratico.exception.NegativeNumberException;
 import trabalhoPratico.exception.InvalidDataException;
-import java.time.LocalDate;
 
 /**
  *
@@ -55,8 +54,7 @@ public class Produto {
 
         setValidade(validade);
         setLote(lote);
-        setQuantity(quantity);
-        
+        setQuantity(quantity);   
     }
 
     public void setValidade(String validade) throws EmptyStrException, InvalidDataException {

@@ -16,7 +16,7 @@ public class AdicionarNovoProduto implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        tela.adicionarNovoProduto();
+//        tela.adicionarNovoProduto();
     }
 
 }
