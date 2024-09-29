@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package trabalhoPratico.view;
 
 import javax.swing.*;
@@ -50,7 +46,7 @@ public class TelaNovoProduto {
         telaAdiciona = new JFrame("Novo Produto");
         telaAdiciona.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaAdiciona.setSize(500,500);
-        telaAdiciona.setLayout(new MigLayout("top, center"));
+        telaAdiciona.setLayout(new MigLayout("center, center"));
         telaAdiciona.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         telaAdiciona.setLocationRelativeTo(null);
         telaAdiciona.setVisible(true);
@@ -63,11 +59,8 @@ public class TelaNovoProduto {
         
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(360, 250));
-        panel.setLayout(new MigLayout(
-                "",
-                "40[]25[]",
-                "40[][][][][][]"));
-//        panel.setLayout(new MigLayout());
+        panel.setLayout(new MigLayout("center, center"));
+        
         JLabel JNome = new JLabel("Nome: ");
         JNome.setFont(fontTexto);
         TextNome = new JTextField();
@@ -77,7 +70,6 @@ public class TelaNovoProduto {
         
         JLabel JTipo = new JLabel("Tipo:");
         JTipo.setFont(fontTexto);
-        JTipo.setPreferredSize(new Dimension(60,20));
         
 
         String[] pessoas = { "eu","voce","ela","ele"};
@@ -88,9 +80,7 @@ public class TelaNovoProduto {
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         listaCategoria.setPreferredSize(new Dimension(100,100));
         
-       
-        
-        
+
         JLabel JPreco = new JLabel("Preco: ");
         JPreco.setFont(fontTexto);
         JPreco.setPreferredSize(new Dimension(60,20));
@@ -101,7 +91,7 @@ public class TelaNovoProduto {
         
         JLabel JQuant = new JLabel("Quantidade:");
         JQuant.setFont(fontTexto);
-        JQuant.setPreferredSize(new Dimension(60,20));
+        JQuant.setPreferredSize(new Dimension(80,20));
         TextQuant = new JTextField();
         TextQuant.setPreferredSize(new Dimension(100, 20));
         TextQuant.setFont(fontTexto);
@@ -130,17 +120,18 @@ public class TelaNovoProduto {
             JOptionPane.showMessageDialog(null, "Data Invalida", "Atenção", JOptionPane.ERROR_MESSAGE);
         }
         
+        
         validade.setPreferredSize(new Dimension(100, 20));
         validade.setFont(fontTexto);
         
         panel.add(JNome);
-        panel.add(TextNome, "span");
+        panel.add(TextNome, "wrap");
         
         panel.add(JTipo);
-        panel.add(scroll, "span");
+        panel.add(scroll, "wrap");
         
         panel.add(JPreco);
-        panel.add(TextPreco, "span");
+        panel.add(TextPreco, "wrap");
         
         panel.add(JQuant);
         panel.add(TextQuant, "wrap");
@@ -150,10 +141,7 @@ public class TelaNovoProduto {
         
         panel.add(JValid);
         panel.add(validade, "wrap");
-        
-        
         drawButtons();
-        
         
         telaAdiciona.getContentPane().add(panel,"wrap");
         telaAdiciona.getContentPane().add(panelButtons);
@@ -167,7 +155,6 @@ public class TelaNovoProduto {
                 "",
                 "40[]40[]",
                 "20[]"));
-        
         JButton cancela = new JButton("Cancelar");
         cancela.setPreferredSize(new Dimension(120,30));
         cancela.setFont(fontButton);
@@ -226,12 +213,12 @@ public class TelaNovoProduto {
         try{
             novoProduto.setQuantity(Integer.parseInt(TextQuant.getText()));
         } catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"quantidade\" aceita apenas números",
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Quantidade\" aceita apenas números",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
             novoProduto = null;
             return;
         } catch(NegativeNumberException e){
-            JOptionPane.showMessageDialog(telaAdiciona, "Insira uma quantidade positiva",
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Quantidade\" aceita apenas números positivos",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
             novoProduto = null;
             return;
@@ -261,16 +248,11 @@ public class TelaNovoProduto {
             return;
         }
         
-            escreve();
             listaProdutos.add(novoProduto);
             ProdutoPersistence prodPersist = new ProdutoPersistence();
             prodPersist.save(listaProdutos);
             tabelaProduto.atualizaTabela();
             JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso");
             telaAdiciona.dispose();
-    }
-
-    public void escreve() {
-        System.out.println("TelaNovoProduto{" + ", TextNome=" + novoProduto.getName() + ", TextTipo=" + novoProduto.getCategory() + ", TextPreco=" + novoProduto.getPrice() + ", TextQuant=" + novoProduto.getQuantity() + ", TextLote=" + novoProduto.getLote() + ", validade=" + novoProduto.getValidade() + '}');
     }
 }
