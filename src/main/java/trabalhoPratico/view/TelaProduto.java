@@ -43,7 +43,7 @@ public class TelaProduto implements ActionListener{
         
     public void draw()
     {   
-        telaTabela = new JFrame("Produto");
+        telaTabela = new JFrame(meuProduto.getName());
         telaTabela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         telaTabela.setLayout(new MigLayout("top, center"));
         telaTabela.setSize(WIDTH, HEIGHT);
@@ -128,7 +128,7 @@ public class TelaProduto implements ActionListener{
         butAdiciona.setPreferredSize(new Dimension(120,30));
         butAdiciona.setFont(fontButton);
         
-        butEditar = new JButton("Editar quantidade");
+        butEditar = new JButton("Editar Lote");
         butEditar.setPreferredSize(new Dimension(120, 30));
         butEditar.setFont(fontButton);
         
