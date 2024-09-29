@@ -18,6 +18,7 @@ import java.util.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import javax.swing.text.MaskFormatter;
 
 
 public class GerenciarFuncionarios implements WindowListener {
@@ -90,11 +91,24 @@ public class GerenciarFuncionarios implements WindowListener {
 
     private void abrirFormularioFuncionario(Funcionario funcionarioExistente) {
         JTextField nomeField = new JTextField();
-        JTextField cpfField = new JTextField();
-        JTextField dataNascimentoField = new JTextField();
+        //JTextField cpfField = new JTextField();
+        JFormattedTextField cpfField = null;
+        try{
+            MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
+            cpfField = new JFormattedTextField(mascaraCpf);
+        }catch(ParseException e){}
+        
+        //JTextField dataNascimentoField = new JTextField();
+        JFormattedTextField dataNascimentoField = null;
+        try{
+            MaskFormatter mascaraData = new MaskFormatter("##/##/####");
+            dataNascimentoField = new JFormattedTextField(mascaraData);
+        }catch(ParseException e){}
         JTextField salarioField = new JTextField();
         JTextField roleField = new JTextField(); 
         JTextField passwordField = new JTextField(); 
+        
+        
 
         if (funcionarioExistente != null) {
             nomeField.setText(funcionarioExistente.getNome());
