@@ -5,6 +5,8 @@ import java.util.List;
 
 import trabalhoPratico.exception.EmptyStrException;
 import trabalhoPratico.exception.NegativeNumberException;
+import trabalhoPratico.exception.InvalidDataException;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,38 +16,38 @@ public class Produto {
     
     private String name;
     private String category;
-    private String price;
-    private int totalQuantity;
+    private Double price;
     public List<String> validade;
     private List<Integer> quantity;
     private List<String> lote;
+    private int quantidadeLotes;
 
     public Produto(){
         this.validade = new ArrayList<>();
         this.quantity = new ArrayList<>();
         this.lote = new ArrayList<>();
+        this.quantidadeLotes = 0;
     }
 
-    public Produto(String name, String category, String price)
-     throws EmptyStrException, NegativeNumberException
+    public Produto(String name, String category, Double price)
+     throws EmptyStrException, NegativeNumberException, NumberFormatException
     {
         setName(name);
         setCategory(category);
         setPrice(price);
-        this.totalQuantity = 0;
+        this.quantidadeLotes = 0;
 
         this.validade = new ArrayList<>();
         this.quantity = new ArrayList<>();
         this.lote = new ArrayList<>();
     }
 
-    public Produto(String name, String category, String price, 
-    String validade, String lote, int quantity) throws EmptyStrException, NegativeNumberException
+    public Produto(String name, String category, Double price, 
+    String validade, String lote, int quantity) throws EmptyStrException, NegativeNumberException, NumberFormatException, InvalidDataException
     {
         setName(name);
         setCategory(category);
         setPrice(price);
-        this.totalQuantity = quantity;
 
         this.validade = new ArrayList<>();
         this.lote = new ArrayList<>();
@@ -57,15 +59,29 @@ public class Produto {
         
     }
 
-    public void setValidade(String validade) throws EmptyStrException {
-        if(validade.isBlank())
+    public void setValidade(String validade) throws EmptyStrException, InvalidDataException {
+        if(validade.equals("  /  /    ") || validade == null)
             throw new EmptyStrException();
+        if(!dataValida(validade))
+            throw new InvalidDataException();
         this.validade.add(validade);
     }
 
-    public void setPrice(String price) throws EmptyStrException {
-        if(price.isBlank())
-            throw new EmptyStrException();
+    private Boolean dataValida(String data)
+    {
+        int dia = Integer.parseInt(data.substring(0, 2));
+        int mes = Integer.parseInt(data.substring(3, 5));
+        int ano = Integer.parseInt(data.substring(6));
+
+        if(dia>=1 && dia<=30 && mes>=1 && mes<=12 && ano>=0)
+            return true;
+        else
+            return false;
+    }
+
+    public void setPrice(Double price) throws NegativeNumberException {
+        if(price < 0 )
+            throw new NegativeNumberException();
         this.price = price;
     }
     
@@ -85,31 +101,77 @@ public class Produto {
         if(quantity < 0)
             throw new NegativeNumberException();
         this.quantity.add(quantity);
-        totalQuantity += quantity;
     }
 
-    public void setLote(String lote) throws NegativeNumberException {
-        if(Integer.parseInt(lote.strip()) < 0)
-            throw new NegativeNumberException();
+    public void setLote(String lote) throws EmptyStrException {
+        if(lote.isBlank())
+            throw new EmptyStrException();
+
         this.lote.add(lote);
+        quantidadeLotes++;
     }
 
     public Object[] toArray()
     {
         Object[] array = new Object[4];
-        array[0] = Integer.toString(this.totalQuantity);
+        array[0] = Integer.toString(totalQuantity());
         array[1] = this.name;
         array[2] = this.category;
-        array[3] = this.price;
+        array[3] = "R$ " + this.price;
         return array;
     }
+    
+    public String getName() {
+        return name;
+    }
 
-    public Object[] getProdutoProperties()
+    public String getCategory() {
+        return category;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public int totalQuantity()
+    {
+        int total = 0;
+        for(int qnt: quantity)
+            total += qnt;
+        return total;
+    }
+
+    public Object[] getProdutoProperties(int i)
     {
         Object[] array = new Object[3];
-        array[0] = this.quantity;
-        array[1] = this.lote;
-        array[2] = this.validade;
+        array[0] = this.quantity.get(i);
+        array[1] = this.lote.get(i);
+        array[2] = this.validade.get(i);
         return array;
+    }
+    
+    public int getQuantidaddeLotes()
+    {
+        return this.quantidadeLotes;
+    }
+
+    public List<String> getValidade() {
+        return validade;
+    }
+
+    public List<Integer> getQuantity() {
+        return quantity;
+    }
+
+    public List<String> getLote() {
+        return lote;
+    }
+
+    public void removeLote(int index)
+    {
+        quantity.remove(index);
+        lote.remove(index);
+        validade.remove(index);
+        quantidadeLotes--;
     }
 }

@@ -18,16 +18,17 @@ import java.util.List;
 public class TelaTabelaProdutos implements Tela {
     
     private JFrame tela;
-
     private JButton buttonAdicionarProduto;
     private JButton buttonAdicionarCategoria;
     private JButton buttonTelaFuncionarios;
-
     private List<Produto> listaProdutos;
     private JTable jtProdutos;
     private DefaultTableModel tableModel;
+    private JPanel panelTable;
 
     private Funcionario user;
+
+    private ProdutoPersistence prodPersis = new ProdutoPersistence();
 
     public TelaTabelaProdutos(Funcionario user)
     {
@@ -42,10 +43,13 @@ public class TelaTabelaProdutos implements Tela {
         tela.getContentPane().setLayout(new MigLayout("top, center, fillx"));
         tela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         tela.setVisible(true);
+
         
         if(user.getRole().toLowerCase().equals("gerente"))
             drawButtons();
-
+        
+        panelTable = new JPanel(new MigLayout("fill"));
+        tela.getContentPane().add(panelTable, "grow");
         drawTable();
 
         tela.pack();
@@ -80,7 +84,6 @@ public class TelaTabelaProdutos implements Tela {
     
     private void drawTable()
     {
-        ProdutoPersistence prodPersis = new ProdutoPersistence();
         listaProdutos = prodPersis.read();
         
         tableModel = new DefaultTableModel();
@@ -108,10 +111,7 @@ public class TelaTabelaProdutos implements Tela {
         JScrollPane barraRolagem = new JScrollPane(jtProdutos);
         barraRolagem.setBorder(BorderFactory.createEmptyBorder());
 
-        JPanel panel = new JPanel(new MigLayout("fill"));
-        panel.add(barraRolagem, "grow, wrap");
-        
-        tela.getContentPane().add(panel, "grow");
+        panelTable.add(barraRolagem, "grow, wrap");
     }
     
     public void adicionarNovoProduto()
@@ -122,8 +122,10 @@ public class TelaTabelaProdutos implements Tela {
     
     public void informacoesProduto()
     {
-        //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMADA DA TELA DE INFORMAÇÔES DO PRODUTO
-        System.out.println(jtProdutos.getValueAt(jtProdutos.getSelectedRow(), 1).toString());
+        Produto produto = listaProdutos.get(jtProdutos.getSelectedRow());
+        TelaProduto telaProduto = new TelaProduto(produto, this);
+
+        telaProduto.draw();
     }
     
     public void adicionarCategoria()
@@ -136,5 +138,23 @@ public class TelaTabelaProdutos implements Tela {
     {
         //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMDA DA TELA DE ADICIONAR NOVA CATEGORIA
         System.out.println("Abrindo tela de funcionarios");
+    }
+
+    public void removeProduto(Produto produto){
+        listaProdutos.remove(produto);
+        salvaListaProdutos();
+    }
+
+    public void salvaListaProdutos()
+    {
+        prodPersis.save(listaProdutos);
+    }
+
+    public void atualizaTabela()
+    {
+        panelTable.setVisible(false);
+        panelTable.removeAll();
+        drawTable();
+        panelTable.setVisible(true);
     }
 }
