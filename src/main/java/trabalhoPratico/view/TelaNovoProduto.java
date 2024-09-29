@@ -31,7 +31,7 @@ public class TelaNovoProduto {
     private JPanel panelButtons;
     private int quantidade;
     private JTextField TextNome;
-    private JTextField TextTipo;
+    private JList listaCategoria;
     private JTextField TextPreco;
     private JTextField TextQuant;
     private JFormattedTextField TextLote;
@@ -66,8 +66,8 @@ public class TelaNovoProduto {
         panel.setLayout(new MigLayout(
                 "",
                 "40[]25[]",
-                "40[]15[]15[]15[]15[]15[]"));
-        
+                "40[][][][][][]"));
+//        panel.setLayout(new MigLayout());
         JLabel JNome = new JLabel("Nome: ");
         JNome.setFont(fontTexto);
         TextNome = new JTextField();
@@ -78,9 +78,17 @@ public class TelaNovoProduto {
         JLabel JTipo = new JLabel("Tipo:");
         JTipo.setFont(fontTexto);
         JTipo.setPreferredSize(new Dimension(60,20));
-        TextTipo = new JTextField();
-        TextTipo.setPreferredSize(new Dimension(100, 20));
-        TextTipo.setFont(fontTexto);
+        
+
+        String[] pessoas = { "eu","voce","ela","ele"};
+        listaCategoria = new JList (pessoas);
+        listaCategoria.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scroll = new JScrollPane (listaCategoria);
+        scroll.setPreferredSize(new Dimension(100,100));
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        listaCategoria.setPreferredSize(new Dimension(100,100));
+        
+       
         
         
         JLabel JPreco = new JLabel("Preco: ");
@@ -129,7 +137,7 @@ public class TelaNovoProduto {
         panel.add(TextNome, "span");
         
         panel.add(JTipo);
-        panel.add(TextTipo, "span");
+        panel.add(scroll, "span");
         
         panel.add(JPreco);
         panel.add(TextPreco, "span");
@@ -192,7 +200,7 @@ public class TelaNovoProduto {
             return;
         }
         try {
-            novoProduto.setCategory(TextTipo.getText());
+            novoProduto.setCategory(listaCategoria.getSelectedValue().toString());
         } catch (EmptyStrException e) {
             JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Tipo\" deve ser preenchido",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
