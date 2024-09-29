@@ -24,7 +24,7 @@ public class TelaFuncionario extends JFrame {
 
     public TelaFuncionario() {
         super("Gerenciamento de Funcionários");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         setSize(800, 300);
 

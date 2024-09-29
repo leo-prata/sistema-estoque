@@ -24,7 +24,7 @@ public class TelaCategoria extends JFrame {
 
     public TelaCategoria() {
         super("Gerenciamento de Categorias");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         setSize(400, 300);
 

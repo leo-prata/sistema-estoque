@@ -9,6 +9,8 @@ import trabalhoPratico.controller.AbrirInformacoesProduto;
 import trabalhoPratico.controller.AbrirTelaFuncionarios;
 import trabalhoPratico.controller.AdicionarCategoria;
 import trabalhoPratico.controller.AdicionarNovoProduto;
+import trabalhoPratico.controller.GerenciarCategoria;
+import trabalhoPratico.controller.GerenciarFuncionarios;
 import trabalhoPratico.model.Funcionario;
 import trabalhoPratico.model.Produto;
 import trabalhoPratico.persistence.ProdutoPersistence;
@@ -69,7 +71,7 @@ public class TelaTabelaProdutos implements Tela {
         buttonAdicionarProduto.setPreferredSize(new Dimension(150, 50));
         panel.add(buttonAdicionarProduto, "center, center");
         
-        buttonAdicionarCategoria = new JButton("Adicionar Categoria");
+        buttonAdicionarCategoria = new JButton("Categorias");
         buttonAdicionarCategoria.addActionListener(new AdicionarCategoria(this));
         buttonAdicionarCategoria.setPreferredSize(new Dimension(150, 50));
         panel.add(buttonAdicionarCategoria, "center, center");
@@ -130,14 +132,18 @@ public class TelaTabelaProdutos implements Tela {
     
     public void adicionarCategoria()
     {
-        //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMDA DA TELA DE ADICIONAR NOVA CATEGORIA
-        System.out.println("Adicionando mova categoria");
+        TelaCategoria telaCategoria = new TelaCategoria();
+        GerenciarCategoria gerenciarCategoria = new GerenciarCategoria(telaCategoria);
+        telaCategoria.addWindowListener(gerenciarCategoria);
+        telaCategoria.setVisible(true);
     }
 
     public void telaFuncionarios()
     {
-        //ESTE CODIGO DEVE SER REMOVIDO E SUBSTITUIDO PELA CHAMDA DA TELA DE ADICIONAR NOVA CATEGORIA
-        System.out.println("Abrindo tela de funcionarios");
+        TelaFuncionario telaFuncionario = new TelaFuncionario();
+        GerenciarFuncionarios gerenciarFuncionarios = new GerenciarFuncionarios(telaFuncionario);
+        telaFuncionario.addWindowListener(gerenciarFuncionarios);
+        telaFuncionario.setVisible(true);
     }
 
     public void removeProduto(Produto produto){

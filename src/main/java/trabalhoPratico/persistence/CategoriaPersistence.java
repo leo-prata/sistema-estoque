@@ -65,23 +65,15 @@ public class CategoriaPersistence implements Persistence<Categoria> {
         save(categorias);
     }
     
-  
-    
     public void update(Categoria categoriaAtualizada) {
     List<Categoria> categorias = read();  
     
-    System.out.println("Tentando atualizar categoria com ID: " + categoriaAtualizada.getId());
-    
     boolean categoriaEncontrada = false;
-
-    
     for (int i = 0; i < categorias.size(); i++) {
         Categoria categoria = categorias.get(i);
-        System.out.println("Comparando com categoria de ID: " + categoria.getId());
         if (categoria.getId().equals(categoriaAtualizada.getId())) {  
             categorias.set(i, categoriaAtualizada); 
             categoriaEncontrada = true;
-            System.out.println("Categoria atualizada: " + categoriaAtualizada.getNome());
             break;
         }
     }

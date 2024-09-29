@@ -101,7 +101,7 @@ public class TelaLogin implements Tela{
         
         for(Funcionario func : listaFunc)
         {
-            if(func.getCpf().equals(cpfLogin.getCpf()))
+            if(func.getCpf().equals(cpfLogin.toString()))
             {
                 //se o cpf e a senha forem correspondentes, o login é efetuado e proxima tela é chamada
                 if(func.getPassword().equals(passwordLogin))
