@@ -1,16 +1,1 @@
-[{
-        "name": "admin",
-        "cpf": {
-            "cpf": "12345678909"
-        },
-        "password": "admin",
-        "role": "Gerente"
-    },
-    {
-        "name": "Jorge da Silva",
-        "cpf": {
-            "cpf": "43808674040"
-        },
-        "password": "1234",
-        "role": "Caixa"
-    }]
+[{"nome":"Admin","cpf":{"cpf":"12345678909"},"dataNascimento":"Jan 1, 2000, 12:00:00 AM","salario":1000.0,"role":"gerente","password":"admin"},{"nome":"Leandro Sebastião Pietro Pereira","cpf":{"cpf":"02310590193"},"dataNascimento":"Mar 14, 1972, 12:00:00 AM","salario":8500.0,"role":"gerente","password":"1234"},{"nome":"Gustavo Kevin Otávio Ribeiro","cpf":{"cpf":"29195740198"},"dataNascimento":"Jun 16, 2003, 12:00:00 AM","salario":1412.0,"role":"estoquista","password":"1234"},{"nome":"Sophia Mariane da Cruz","cpf":{"cpf":"17875935415"},"dataNascimento":"Aug 2, 1996, 12:00:00 AM","salario":1824.0,"role":"caixa","password":"1234"}]
