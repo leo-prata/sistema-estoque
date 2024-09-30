@@ -58,11 +58,6 @@ Para instalar e configurar o ambiente, siga os passos abaixo:
     mvn install
     ```
 
-## Uso
-Para executar o projeto, use o comando abaixo:
-  ```bash
-  mvn exec:java -Dexec.mainClass="com.exemplo.Main"
-  ```
 
 ## Funcionalidades Adicionais
 - Persistência de Funcionários: Adicionar, remover, atualizar e ler dados de funcionários.
