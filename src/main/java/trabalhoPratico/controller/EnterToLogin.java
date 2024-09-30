@@ -1,8 +1,13 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import trabalhoPratico.view.TelaLogin;
 
 public class EnterToLogin implements KeyListener{

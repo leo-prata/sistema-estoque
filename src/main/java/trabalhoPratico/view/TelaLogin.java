@@ -1,3 +1,9 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.view;
 
 import trabalhoPratico.persistence.FuncionarioPersistence;
@@ -18,25 +24,19 @@ import trabalhoPratico.model.Cpf;
  *
  * @author filip
  */
-public class TelaLogin implements Tela{
+public class TelaLogin{
 
     private JFrame tela;
-    
     private JFormattedTextField tfCPF;
     private JPasswordField pfPassword;
-    
     private static Funcionario user;
     
-    /**
-     * Faz a janela aparecer na tela
-     */
-    @Override
     public void draw()
     {
         tela = new JFrame("Estoque");
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.getContentPane().setLayout(new MigLayout("center, center"));
-        tela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        tela.setPreferredSize(new Dimension(1280, 720));
         tela.setVisible(true);
 
         drawInput();

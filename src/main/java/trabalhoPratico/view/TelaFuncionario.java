@@ -1,20 +1,20 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
  */
+
 package trabalhoPratico.view;
+
+import trabalhoPratico.model.Funcionario;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 /**
  *
  * @author leopp
  */
-
-import trabalhoPratico.model.Funcionario;
-        
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
-
 public class TelaFuncionario extends JFrame {
     private DefaultListModel<Funcionario> listaModel;
     private JList<Funcionario> listaFuncionarios;

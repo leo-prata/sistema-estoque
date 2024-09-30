@@ -1,14 +1,15 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.controller;
 
-/**
- *
- * @author leopp
- */
 import trabalhoPratico.model.Funcionario;
 import trabalhoPratico.persistence.FuncionarioPersistence;
 import trabalhoPratico.persistence.Persistence;
 import trabalhoPratico.view.TelaFuncionario;
-
 import javax.swing.*;
 import java.awt.event.WindowListener;
 import java.awt.Dimension;
@@ -16,12 +17,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.*;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.text.MaskFormatter;
 
 
+/**
+ *
+ * @author leopp
+ */
 public class GerenciarFuncionarios implements WindowListener {
 
     private final TelaFuncionario tela;
@@ -116,7 +120,6 @@ public class GerenciarFuncionarios implements WindowListener {
         JPasswordField passwordField = new JPasswordField(); 
         
         
-
         if (funcionarioExistente != null) {
             nomeField.setText(funcionarioExistente.getNome());
             cpfField.setText(funcionarioExistente.getCpf().toString());
@@ -181,16 +184,16 @@ public class GerenciarFuncionarios implements WindowListener {
                 return;
             }
 
-            for(Funcionario funcionario: getTodosFuncionarios())
-            {
-                if(cpfStr.equals(funcionario.getCpf().toString())){
-                    JOptionPane.showMessageDialog(tela, "Já existe um funcionário com este cpf.");
-                    return;
-                }
-            }
-
+            
             try {
                 if (funcionarioExistente == null) {
+                    for(Funcionario funcionario: getTodosFuncionarios())
+                    {
+                        if(cpfStr.equals(funcionario.getCpf().toString())){
+                            JOptionPane.showMessageDialog(tela, "Já existe um funcionário com este cpf.");
+                            return;
+                        }
+                    }
                     Funcionario novoFuncionario = new Funcionario(nome, cpfStr, dataNascimento, salario, role, password);
                     ((FuncionarioPersistence) funcionarioPersistence).add(novoFuncionario);
                 } else {

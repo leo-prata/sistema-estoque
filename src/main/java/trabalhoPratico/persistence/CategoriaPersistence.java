@@ -1,14 +1,18 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.persistence;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import trabalhoPratico.model.Categoria;
 
 public class CategoriaPersistence implements Persistence<Categoria> {

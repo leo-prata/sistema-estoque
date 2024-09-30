@@ -1,3 +1,9 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.view;
 
 import javax.swing.*;
@@ -5,11 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
-
 import trabalhoPratico.controller.AbrirInformacoesProduto;
 import trabalhoPratico.controller.AbrirTelaFuncionarios;
 import trabalhoPratico.controller.AdicionarCategoria;
-import trabalhoPratico.controller.AdicionarNovoProduto;
 import trabalhoPratico.controller.GerenciarCategoria;
 import trabalhoPratico.controller.GerenciarFuncionarios;
 import trabalhoPratico.model.Funcionario;
@@ -18,7 +22,7 @@ import trabalhoPratico.persistence.ProdutoPersistence;
 
 import java.util.List;
 
-public class TelaTabelaProdutos implements Tela {
+public class TelaTabelaProdutos {
     
     private JFrame tela;
     private JButton buttonAdicionarProduto;
@@ -28,9 +32,7 @@ public class TelaTabelaProdutos implements Tela {
     private JTable jtProdutos;
     private DefaultTableModel tableModel;
     private JPanel panelTable;
-
     private Funcionario user;
-
     private ProdutoPersistence prodPersis = new ProdutoPersistence();
 
     public TelaTabelaProdutos(Funcionario user)
@@ -38,13 +40,12 @@ public class TelaTabelaProdutos implements Tela {
         this.user = user; 
     }
 
-    @Override
     public void draw()
     {
         tela = new JFrame("Estoque");
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.getContentPane().setLayout(new MigLayout("top, center, fillx"));
-        tela.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        tela.setPreferredSize(new Dimension(1280, 720));
         tela.setVisible(true);
 
         
@@ -63,7 +64,7 @@ public class TelaTabelaProdutos implements Tela {
         JPanel panel = new JPanel();
         MigLayout layout = new MigLayout("center, center, fillx");
         panel.setLayout(layout);
-        panel.setPreferredSize(new Dimension(WIDTH, 70));
+        panel.setPreferredSize(new Dimension(1280, 70));
         panel.setVisible(true);
         tela.getContentPane().add(panel, "grow, wrap");
 
@@ -116,20 +117,17 @@ public class TelaTabelaProdutos implements Tela {
 
         panelTable.add(barraRolagem, "grow, wrap");
     }
+    
     public void adicionarActioPerfomed(ActionEvent e)
     {
         TelaNovoProduto novoProduto = new TelaNovoProduto();
         novoProduto.draw(listaProdutos, this);
     }
-    public void adicionarProduto(Produto novo)
-    {
-        listaProdutos.add(novo);
-    }
     
     public void informacoesProduto()
     {
         Produto produto = listaProdutos.get(jtProdutos.getSelectedRow());
-        TelaProduto telaProduto = new TelaProduto(produto, this);
+        TelaProduto telaProduto = new TelaProduto(produto, this, user);
 
         telaProduto.draw();
     }

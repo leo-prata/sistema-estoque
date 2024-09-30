@@ -1,21 +1,22 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.model;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import trabalhoPratico.exception.CpfException;
+import trabalhoPratico.exception.EmptyStrException;
+
 /**
  *
  * @author leopp
  */
-import java.util.Date;
-import java.util.UUID;
-import trabalhoPratico.exception.CpfException;
-import trabalhoPratico.exception.EmptyStrException;
-
-
 public class Funcionario {
+ 
     private String nome;
     private Cpf cpf;
     private Date dataNascimento;
@@ -23,7 +24,6 @@ public class Funcionario {
     private String role;
     private String password;
  
-
     public Funcionario(String nome, String cpf, Date dataNascimento, double salario, String role, String password) throws EmptyStrException, NumberFormatException, CpfException  {
         this.nome = nome;
         setCpf(cpf);
@@ -31,14 +31,11 @@ public class Funcionario {
         this.salario = salario;
         setRole(role);
         setPassword(password);
-        
-   
     }
 
     public String getNome() {
         return nome;
     }
-    
 
     public String getCpf() {
         return cpf.toString();

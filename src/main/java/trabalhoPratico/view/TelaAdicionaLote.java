@@ -1,3 +1,9 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.view;
 
 import javax.swing.*;
@@ -16,6 +22,7 @@ import trabalhoPratico.model.Produto;
  * @author Victor Brandão
  */
 public class TelaAdicionaLote {
+    
     private final int WIDTH = 560;
     private final int HEIGHT = 680;
     private Produto infoProdut;
@@ -28,7 +35,6 @@ public class TelaAdicionaLote {
     private JTextField JTextQuant;
     private JFormattedTextField JTextLote;
     private JFormattedTextField validade;
-    
     private TelaProduto telaProduto;
     
     
@@ -42,8 +48,8 @@ public class TelaAdicionaLote {
         telaAdiciona.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         telaAdiciona.setLocationRelativeTo(null);
         telaAdiciona.setVisible(true);
+
         drawTela();
-        
     }
     
     private void drawTela(){
@@ -133,9 +139,7 @@ public class TelaAdicionaLote {
         panel.add(JValid);
         panel.add(validade, "wrap");
         
-        
         drawButtons();
-        
         
         telaAdiciona.getContentPane().add(panel,"wrap");
         telaAdiciona.getContentPane().add(panelButtons);

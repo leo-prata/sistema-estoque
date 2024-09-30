@@ -1,10 +1,15 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.controller;
 
 import trabalhoPratico.model.Categoria;
 import trabalhoPratico.persistence.CategoriaPersistence;
 import trabalhoPratico.persistence.Persistence;
 import trabalhoPratico.view.TelaCategoria;
-
 import javax.swing.*;
 import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
@@ -12,6 +17,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.*;
 
+/**
+ *
+ * @author leopp
+ */
 public class GerenciarCategoria implements WindowListener {
 
     private final TelaCategoria tela;
@@ -65,7 +74,7 @@ public class GerenciarCategoria implements WindowListener {
 
         for (int i = 0; i < model.getSize(); i++) {
             categorias.add(model.getElementAt(i));
-    }
+        }
 
     return categorias;
 }
@@ -99,7 +108,6 @@ public class GerenciarCategoria implements WindowListener {
     if (result == JOptionPane.OK_OPTION) {
         String nome = nomeField.getText();
         nome = nome.strip();
-        nome = nome.toLowerCase();
 
         if (nome.isEmpty()) {
             JOptionPane.showMessageDialog(tela, "O nome da categoria deve ser preenchido.");
@@ -108,7 +116,7 @@ public class GerenciarCategoria implements WindowListener {
 
         for(Categoria categoria: getTodasCategorias())
         {
-            if(categoria.getNome().equals(nome)){
+            if(categoria.getNome().toLowerCase().equals(nome.toLowerCase())){
                 JOptionPane.showMessageDialog(tela, "Categoria já existente");
                 return;
             }

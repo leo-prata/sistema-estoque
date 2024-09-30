@@ -1,19 +1,16 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico;
 
-import java.util.List;
-import trabalhoPratico.exception.CpfException;
-import trabalhoPratico.exception.EmptyStrException;
-import trabalhoPratico.model.Produto;
-import trabalhoPratico.persistence.ProdutoPersistence;
-import trabalhoPratico.view.*;
-import trabalhoPratico.controller.GerenciarFuncionarios;
-import trabalhoPratico.controller.GerenciarCategoria;
-
-import trabalhoPratico.persistence.Archive;
+import trabalhoPratico.view.TelaLogin;
 
 public class SistemaEstoque {
 
-    public static void main(String[] args) throws CpfException, NumberFormatException, EmptyStrException {
+    public static void main(String[] args)  {
        TelaLogin login = new TelaLogin();
        login.draw();
     }

@@ -1,3 +1,9 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.view;
 
 import javax.swing.*;
@@ -11,7 +17,9 @@ import net.miginfocom.swing.MigLayout;
 import trabalhoPratico.exception.EmptyStrException;
 import trabalhoPratico.exception.InvalidDataException;
 import trabalhoPratico.exception.NegativeNumberException;
+import trabalhoPratico.model.Categoria;
 import trabalhoPratico.model.Produto;
+import trabalhoPratico.persistence.CategoriaPersistence;
 import trabalhoPratico.persistence.ProdutoPersistence;
 
 /**
@@ -19,15 +27,15 @@ import trabalhoPratico.persistence.ProdutoPersistence;
  * @author Victor Brandão
  */
 public class TelaNovoProduto {
+
     private final int WIDTH = 560;
     private final int HEIGHT = 680;
     private Produto novoProduto;
     private JFrame telaAdiciona;
     private JPanel panel;
     private JPanel panelButtons;
-    private int quantidade;
     private JTextField TextNome;
-    private JList listaCategoria;
+    private JList<String> listaCategoria;
     private JTextField TextPreco;
     private JTextField TextQuant;
     private JFormattedTextField TextLote;
@@ -35,10 +43,8 @@ public class TelaNovoProduto {
     private List<Produto> listaProdutos;
     private TelaTabelaProdutos tabelaProduto;
     
-    
-    
-    
-    public void draw(List lista, TelaTabelaProdutos tabelaProduto){
+    public void draw(List<Produto> lista, TelaTabelaProdutos tabelaProduto){
+        
         this.listaProdutos = lista;
         this.tabelaProduto = tabelaProduto;
         
@@ -68,17 +74,22 @@ public class TelaNovoProduto {
         TextNome.setFont(fontTexto);
         
         
-        JLabel JTipo = new JLabel("Tipo:");
+        JLabel JTipo = new JLabel("Categoria:");
         JTipo.setFont(fontTexto);
         
+        CategoriaPersistence categPersis = new CategoriaPersistence();
+        List<Categoria> listaCategorias = categPersis.read();
+        String[] categorias = new String[listaCategorias.size()];
 
-        String[] pessoas = { "eu","voce","ela","ele"};
-        listaCategoria = new JList (pessoas);
+        for(int i=0; i<listaCategorias.size(); i++)
+            categorias[i] = listaCategorias.get(i).getNome();
+
+
+        listaCategoria = new JList<> (categorias);
         listaCategoria.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scroll = new JScrollPane (listaCategoria);
         scroll.setPreferredSize(new Dimension(100,100));
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        listaCategoria.setPreferredSize(new Dimension(100,100));
         
 
         JLabel JPreco = new JLabel("Preco: ");
@@ -146,6 +157,7 @@ public class TelaNovoProduto {
         telaAdiciona.getContentPane().add(panel,"wrap");
         telaAdiciona.getContentPane().add(panelButtons);
     }
+    
     private void drawButtons() {
         Font fontButton = new Font("sans-serif", Font.BOLD, 15);
         
@@ -188,8 +200,8 @@ public class TelaNovoProduto {
         }
         try {
             novoProduto.setCategory(listaCategoria.getSelectedValue().toString());
-        } catch (EmptyStrException e) {
-            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Tipo\" deve ser preenchido",
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(telaAdiciona, "O campo \"Categoria\" deve ser preenchido",
                 "ERRO", JOptionPane.ERROR_MESSAGE);
             novoProduto = null;
             return;

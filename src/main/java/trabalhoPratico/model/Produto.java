@@ -1,8 +1,13 @@
+/*
+    FILIPE MOREIRA VIDAL - 202365510B
+    LEONARDO PEREIRA DE FARIA PRATA  - 202365553C
+    VICTOR ALBINO BRANDÃO SILVA - 202365558C
+*/
+
 package trabalhoPratico.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import trabalhoPratico.exception.EmptyStrException;
 import trabalhoPratico.exception.NegativeNumberException;
 import trabalhoPratico.exception.InvalidDataException;
@@ -26,35 +31,6 @@ public class Produto {
         this.quantity = new ArrayList<>();
         this.lote = new ArrayList<>();
         this.quantidadeLotes = 0;
-    }
-
-    public Produto(String name, String category, Double price)
-     throws EmptyStrException, NegativeNumberException, NumberFormatException
-    {
-        setName(name);
-        setCategory(category);
-        setPrice(price);
-        this.quantidadeLotes = 0;
-
-        this.validade = new ArrayList<>();
-        this.quantity = new ArrayList<>();
-        this.lote = new ArrayList<>();
-    }
-
-    public Produto(String name, String category, Double price, 
-    String validade, String lote, int quantity) throws EmptyStrException, NegativeNumberException, NumberFormatException, InvalidDataException
-    {
-        setName(name);
-        setCategory(category);
-        setPrice(price);
-
-        this.validade = new ArrayList<>();
-        this.lote = new ArrayList<>();
-        this.quantity = new ArrayList<>();
-
-        setValidade(validade);
-        setLote(lote);
-        setQuantity(quantity);   
     }
 
     public void setValidade(String validade) throws EmptyStrException, InvalidDataException {
