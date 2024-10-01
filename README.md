@@ -27,7 +27,6 @@ Este projeto é uma aplicação Java desenvolvida para gerenciar dados de funcio
   - `GerenciarCategoria.java`: Gerencia a lógica de categorias, incluindo adicionar, remover e editar categorias.
   - `GerenciarFuncionarios.java`: Gerencia a lógica de funcionários, incluindo adicionar, remover e editar funcionários.
   - `EnterToLogin.java`: Gerencia a ação de pressionar Enter para realizar o login.
-  - `AdicionarNovoProduto.java`: Gerencia a lógica de adicionar um novo produto.
   - `AdicionarCategoria.java`: Gerencia a lógica de adicionar uma nova categoria.
   - `AbrirTelaFuncionarios.java`: Gerencia a ação de abrir a tela de funcionários.
   - `AbrirInformacoesProduto.java`: Gerencia a ação de abrir informações de um produto.
@@ -37,7 +36,6 @@ Este projeto é uma aplicação Java desenvolvida para gerenciar dados de funcio
   - `TelaFuncionario.java`: Interface gráfica para gerenciar funcionários.
   - `TelaTabelaProdutos.java`: Interface gráfica para exibir a tabela de produtos.
   - `TelaCategoria.java`: Interface gráfica para exibir e gerenciar categorias.
-  - `Tela.java`: Interface que define padrões de medida de altura e largura para as telas.
 
 - `src/main/java/trabalhoPratico/exception`: Contém as classes de exceção.
   - `CpfException.java`: Exceção para CPF inválido.
@@ -49,8 +47,8 @@ Para instalar e configurar o ambiente, siga os passos abaixo:
 
 1. Clone o repositório:
     ```bash
-    git clone https://github.com/leo-prata/trabalho-pratico.git
-    cd trabalho-pratico
+    git clone https://github.com/leo-prata/sistema-estoque
+    cd ./sistema-estoque/
     ```
 
 2. Instale as dependências usando Maven:
